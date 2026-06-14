@@ -69,6 +69,51 @@ class ListadoCobrosView(RoleRequiredMixin, ListView):
         return context
 
 
+class ExportarCobrosExcelView(ListadoCobrosView):
+    """Exporta a Excel el listado de cobros con los filtros aplicados."""
+
+    def get(self, request, *args, **kwargs):
+        import openpyxl
+        from openpyxl.styles import Font, PatternFill
+        from openpyxl.utils import get_column_letter
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = 'Cobros'
+        encabezados = ['Alumno', 'RUT', 'Curso', 'Arancel', 'Período',
+                       'Monto', 'Pagado', 'Saldo', 'Estado', 'Vencimiento']
+        ws.append(encabezados)
+        relleno = PatternFill('solid', fgColor='010D61')
+        for celda in ws[1]:
+            celda.font = Font(bold=True, color='FFFFFF')
+            celda.fill = relleno
+
+        for cobro in self.get_queryset():
+            alumno = cobro.matricula.alumno
+            ws.append([
+                alumno.usuario.get_full_name() or alumno.rut_alumno,
+                alumno.rut_alumno,
+                str(cobro.matricula.curso),
+                cobro.tipo_arancel.nombre,
+                cobro.periodo,
+                float(cobro.monto),
+                float(cobro.total_pagado),
+                float(cobro.saldo_pendiente),
+                cobro.get_estado_display(),
+                cobro.fecha_vencimiento.strftime('%d-%m-%Y') if cobro.fecha_vencimiento else '',
+            ])
+
+        for i, ancho in enumerate([28, 13, 18, 18, 12, 12, 12, 12, 12, 13], start=1):
+            ws.column_dimensions[get_column_letter(i)].width = ancho
+
+        respuesta = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        respuesta['Content-Disposition'] = 'attachment; filename="cobros.xlsx"'
+        wb.save(respuesta)
+        return respuesta
+
+
 class GenerarCobrosView(RoleRequiredMixin, FormView):
     allowed_roles = ['admin']
     template_name = 'contabilidad/generar.html'

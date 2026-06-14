@@ -12,6 +12,7 @@
     </div>
     <nav class="nav-encabezado">
         <a href="{% url 'contabilidad:generar' %}" class="btn">+ Generar cobros masivos</a>
+        <a href="{% url 'contabilidad:exportar_cobros' %}?{{ request.GET.urlencode }}" class="btn-volver">⬇ Exportar a Excel</a>
         <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
     </nav>
 </div>
