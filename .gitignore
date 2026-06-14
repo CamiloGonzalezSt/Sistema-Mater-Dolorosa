@@ -22,6 +22,7 @@ node_modules/
 
 # Logs
 *.log
+logs/
 
 # Scripts scratch temporales en la raíz
 /_*.py

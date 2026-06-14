@@ -13,7 +13,7 @@
 
 <section class="seccion seccion-texto">
     {% if noticia.imagen %}
-    <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="noticia-imagen-detalle">
+    <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="noticia-imagen-detalle" decoding="async">
     {% endif %}
     <p class="noticia-bajada">{{ noticia.bajada }}</p>
     {{ noticia.cuerpo|linebreaks }}

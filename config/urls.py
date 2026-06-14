@@ -3,12 +3,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 from apps.contabilidad.views import MiCuentaView
 from apps.core.views import DashboardDataView, HomeView
 from apps.web_publica.views import CambiarEstadoPostulacionView, PostulacionesAdminView
 
 urlpatterns = [
+    path(
+        'robots.txt',
+        TemplateView.as_view(template_name='robots.txt', content_type='text/plain'),
+        name='robots',
+    ),
     path('', include('apps.web_publica.urls')),
     path('panel/', HomeView.as_view(), name='home'),
     path('panel/api/dashboard/', DashboardDataView.as_view(), name='dashboard_data'),

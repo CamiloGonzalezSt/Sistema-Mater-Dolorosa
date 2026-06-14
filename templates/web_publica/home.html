@@ -77,7 +77,7 @@
         {% for noticia in noticias %}
         <article class="home-news__card">
             {% if noticia.imagen %}
-            <div class="home-news__media"><img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}"></div>
+            <div class="home-news__media"><img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" loading="lazy" decoding="async"></div>
             {% endif %}
             <div class="home-news__body">
                 <small class="noticia-fecha">{{ noticia.fecha|date:"d \d\e F, Y" }}</small>

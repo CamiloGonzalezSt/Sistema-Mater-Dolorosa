@@ -54,6 +54,8 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Sirve archivos estáticos comprimidos y cacheables en producción
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -99,8 +101,14 @@ DATABASES = {
             'charset': 'utf8mb4',
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
+        # Reutiliza conexiones a la BD (perf en producción)
+        'CONN_MAX_AGE': env.int('DB_CONN_MAX_AGE', default=60),
     }
 }
+
+# Límite de tamaño de peticiones/subidas (defensa básica)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024   # 5 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024   # 5 MB
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
