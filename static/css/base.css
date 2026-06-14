@@ -42,14 +42,37 @@
     --shadow-md: 0 8px 24px rgba(1, 13, 97, 0.08);
     --shadow-lg: 0 18px 44px rgba(35, 150, 252, 0.16);
 
-    /* Tipografía — swap --font-display por una fuente vendoreada cuando exista */
+    /* Tipografía: cuerpo en sistema, títulos en Sora (vendoreada, OFL) */
     --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-display: var(--font-sans);
+    --font-display: "Sora", var(--font-sans);
 
     /* Interacción */
     --ring: 0 0 0 3px rgba(35, 150, 252, 0.18);
     --transicion: 0.18s cubic-bezier(0.2, 0.7, 0.3, 1);
     --borde: 1px solid var(--color-borde);
+}
+
+/* Fuente display: Sora (SIL Open Font License 1.1, auto-hospedada) */
+@font-face {
+    font-family: "Sora";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("fonts/sora-600.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Sora";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("fonts/sora-700.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Sora";
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url("fonts/sora-800.woff2") format("woff2");
 }
 
 * { box-sizing: border-box; }

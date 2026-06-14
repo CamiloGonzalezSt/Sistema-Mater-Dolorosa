@@ -1,0 +1,13 @@
+Fuente: Sora
+Autor: Jonathan Barnbrook (Google Fonts)
+Licencia: SIL Open Font License, Version 1.1 (OFL-1.1)
+
+Copyright 2020 The Sora Project Authors (https://github.com/SoraType/Sora)
+
+Esta fuente se distribuye bajo la SIL Open Font License 1.1, que permite su
+uso, estudio, modificación y redistribución (incluido el auto-hospedaje en
+sitios web) de forma gratuita. Texto completo de la licencia:
+https://openfontlicense.org
+
+Archivos vendoreados (subconjunto latino): sora-600.woff2, sora-700.woff2,
+sora-800.woff2. Origen: https://fontsource.org/fonts/sora
