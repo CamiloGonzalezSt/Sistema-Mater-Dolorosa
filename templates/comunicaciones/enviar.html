@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nuevo mensaje · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="card card-panel">
+    <h1>Nuevo mensaje</h1>
+    <p>El profesor recibirá una copia por correo electrónico.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Enviar</button>
+        <a href="{% url 'comunicaciones:mensajes' %}" class="btn-volver">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

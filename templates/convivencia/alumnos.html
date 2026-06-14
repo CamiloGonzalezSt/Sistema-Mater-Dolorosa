@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Convivencia · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Hoja de vida y citaciones</h1>
+        <p>Selecciona un alumno para ver su hoja de vida o registrar una anotación o citación.</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+<form method="get" class="form-filtros">
+    <input type="text" name="q" value="{{ busqueda }}" placeholder="Buscar por nombre o RUT…">
+    <select name="curso">
+        <option value="">— Todos los cursos —</option>
+        {% for curso in cursos %}
+        <option value="{{ curso.pk }}" {% if filtro_curso == curso.pk|stringformat:"s" %}selected{% endif %}>{{ curso }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn">Buscar</button>
+</form>
+
+{% if matriculas %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Alumno</th>
+            <th>RUT</th>
+            <th>Curso</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in matriculas %}
+        <tr>
+            <td class="celda-alumno">{{ m.alumno.usuario.get_full_name }}</td>
+            <td>{{ m.alumno.rut_alumno }}</td>
+            <td>{{ m.curso }}</td>
+            <td><a href="{% url 'convivencia:hoja_vida' m.pk %}" class="btn">Hoja de vida</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="card card-panel">
+    <p>{% if busqueda %}Sin resultados para «{{ busqueda }}».{% else %}No tienes alumnos asignados en cursos vigentes.{% endif %}</p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gestión de materiales · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Gestión de materiales</h1>
+        <p>Publica material de estudio para tus cursos, organizado por período y unidad.</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+<div class="card card-panel">
+    <h2>Subir nuevo material</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Publicar material</button>
+    </form>
+</div>
+
+<h2 class="subtitulo-seccion">Materiales publicados</h2>
+{% if materiales %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Material</th>
+            <th>Clase</th>
+            <th>Período / Unidad</th>
+            <th>Subido</th>
+            <th class="col-acciones"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for material in materiales %}
+        <tr>
+            <td class="celda-alumno">{{ material.titulo }}</td>
+            <td>{{ material.curso_asignatura }}</td>
+            <td>{{ material.periodo }}{% if material.unidad %} · {{ material.unidad }}{% endif %}</td>
+            <td>{{ material.creado_el|date:"d-m-Y" }}</td>
+            <td class="col-acciones">
+                <a href="{{ material.archivo.url }}" class="btn btn-claro-panel" download>Ver</a>
+                <form method="post" action="{% url 'academico:material_eliminar' material.pk %}" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn" onclick="return confirm('¿Eliminar este material?')">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="nota-ayuda">Aún no publicas materiales.</p>
+{% endif %}
+{% endblock %}

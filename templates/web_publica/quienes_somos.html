@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}Quiénes Somos · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <h1>Quiénes Somos</h1>
+    <p>Una comunidad educativa con identidad y misión.</p>
+</section>
+
+<section class="seccion seccion-texto">
+    <p>
+        El Colegio Mater Dolorosa es una comunidad educativa católica ubicada en Huechuraba,
+        que acompaña a sus estudiantes desde 1° Básico hasta 4° Medio. Nuestro proyecto une
+        la exigencia académica con una profunda formación humana y espiritual.
+    </p>
+</section>
+
+<section class="seccion" id="congregacion">
+    <div class="tarjetas tarjetas-2">
+        <article class="tarjeta tarjeta-destacada">
+            <h2>Congregación Siervas de María Dolorosa</h2>
+            <p>
+                Fundada en Florencia hacia 1854 y de derecho pontificio desde 1931, nuestra
+                congregación fundadora anima el proyecto educativo del colegio, inspirada en el
+                carisma de servicio y acompañamiento de María al pie de la cruz. Su
+                espiritualidad da identidad a nuestra comunidad: acoger, consolar y servir,
+                especialmente a quienes más lo necesitan.
+            </p>
+        </article>
+        <article class="tarjeta tarjeta-destacada" id="pastoral">
+            <h2>Pastoral</h2>
+            <p>
+                La Pastoral es el corazón del colegio: acompaña la vida de fe de estudiantes,
+                familias y funcionarios a través de la catequesis, los sacramentos, las acciones
+                solidarias y las celebraciones que marcan nuestro año escolar. Todos están
+                invitados a participar y a crecer en comunidad.
+            </p>
+        </article>
+    </div>
+</section>
+
+<section class="seccion cta">
+    <h2>¿Quieres ser parte de esta comunidad?</h2>
+    <a href="{% url 'web_publica:admision' %}" class="btn btn-grande">Postula aquí</a>
+</section>
+{% endblock %}

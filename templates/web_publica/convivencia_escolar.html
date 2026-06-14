@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}Convivencia Escolar · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <h1>Convivencia Escolar</h1>
+    <p>Construimos juntos un ambiente de respeto y buen trato.</p>
+</section>
+
+<section class="seccion seccion-texto">
+    <p>
+        Nuestro equipo de convivencia escolar promueve el diálogo y la resolución pacífica
+        de conflictos, acogiendo a estudiantes y familias para apoyar la sana convivencia
+        en el día a día.
+    </p>
+</section>
+
+{% if equipo %}
+<section class="seccion">
+    <h2 class="seccion-titulo">Equipo de convivencia escolar</h2>
+    <div class="tarjetas tarjetas-3">
+        {% for integrante in equipo %}
+        <article class="tarjeta">
+            <h2>{{ integrante.nombre }}</h2>
+            <p><strong>{{ integrante.cargo }}</strong></p>
+            {% if integrante.descripcion %}<p>{{ integrante.descripcion }}</p>{% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

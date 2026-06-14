@@ -1,0 +1,30 @@
+# Entorno
+.env
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Django
+media/
+staticfiles/
+db.sqlite3
+
+# Tests / cobertura
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# IDE / SO
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

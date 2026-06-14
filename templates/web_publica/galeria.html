@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}Galería · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <h1>Galería</h1>
+    <p>Momentos de nuestra vida escolar.</p>
+</section>
+
+<section class="seccion">
+    {% if anios %}
+    <div class="filtro-anios">
+        {% for anio in anios %}
+        <a href="?anio={{ anio }}" class="chip-anio {% if anio == anio_activo %}activo{% endif %}">{{ anio }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if items %}
+    <div class="galeria-grid">
+        {% for item in items %}
+        <figure class="galeria-card">
+            {% if item.es_video %}
+            <div class="galeria-media">
+                <iframe src="{{ item.video_url }}" title="{{ item.titulo }}" loading="lazy"
+                        allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            {% else %}
+            <div class="galeria-media">
+                <img src="{{ item.imagen.url }}" alt="{{ item.titulo }}" loading="lazy">
+            </div>
+            {% endif %}
+            <figcaption>{{ item.titulo }}</figcaption>
+        </figure>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="seccion-texto">Aún no hay fotos ni videos publicados.</p>
+    {% endif %}
+</section>
+{% endblock %}

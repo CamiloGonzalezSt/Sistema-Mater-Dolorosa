@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contabilidad · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Cobros y pagos</h1>
+        <p>Total por cobrar (pendientes y vencidos): <strong>${{ total_por_cobrar|floatformat:0 }}</strong></p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'contabilidad:generar' %}" class="btn">+ Generar cobros masivos</a>
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+<form method="get" class="form-filtros">
+    <input type="text" name="q" value="{{ busqueda }}" placeholder="Alumno o RUT…">
+    <input type="text" name="periodo" value="{{ filtro_periodo }}" placeholder="Período (2026-03)">
+    <select name="curso">
+        <option value="">— Todos los cursos —</option>
+        {% for curso in cursos %}
+        <option value="{{ curso.pk }}" {% if filtro_curso == curso.pk|stringformat:"s" %}selected{% endif %}>{{ curso }}</option>
+        {% endfor %}
+    </select>
+    <select name="estado">
+        <option value="">— Todos los estados —</option>
+        {% for valor, nombre in estados %}
+        <option value="{{ valor }}" {% if filtro_estado == valor %}selected{% endif %}>{{ nombre }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn">Filtrar</button>
+</form>
+
+{% if cobros %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Alumno</th>
+            <th>Arancel / Período</th>
+            <th>Monto</th>
+            <th>Saldo</th>
+            <th>Vence</th>
+            <th>Estado</th>
+            <th class="col-acciones"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cobro in cobros %}
+        <tr>
+            <td class="celda-alumno">
+                {{ cobro.matricula.alumno.usuario.get_full_name }}
+                <small>{{ cobro.matricula.curso }}</small>
+            </td>
+            <td>{{ cobro.tipo_arancel.nombre }} · {{ cobro.periodo }}</td>
+            <td>${{ cobro.monto|floatformat:0 }}</td>
+            <td>${{ cobro.saldo_pendiente|floatformat:0 }}</td>
+            <td>{{ cobro.fecha_vencimiento|date:"d-m-Y" }}</td>
+            <td><span class="badge badge-{{ cobro.estado }}">{{ cobro.get_estado_display }}</span></td>
+            <td class="col-acciones">
+                {% if cobro.estado != 'pagado' and cobro.estado != 'condonado' %}
+                <a href="{% url 'contabilidad:registrar_pago' cobro.pk %}" class="btn">Registrar pago</a>
+                {% else %}
+                {% with ultimo=cobro.pagos.first %}
+                {% if ultimo %}<a href="{% url 'contabilidad:comprobante_pdf' ultimo.pk %}" class="btn btn-claro-panel">Comprobante</a>{% endif %}
+                {% endwith %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if is_paginated %}
+<div class="helper-links">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&q={{ busqueda }}&estado={{ filtro_estado }}&periodo={{ filtro_periodo }}&curso={{ filtro_curso }}">« Anterior</a>{% endif %}
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&q={{ busqueda }}&estado={{ filtro_estado }}&periodo={{ filtro_periodo }}&curso={{ filtro_curso }}">Siguiente »</a>{% endif %}
+</div>
+{% endif %}
+{% else %}
+<div class="card card-panel">
+    <p>No hay cobros que coincidan con el filtro. Genera cobros masivos para comenzar.</p>
+</div>
+{% endif %}
+{% endblock %}

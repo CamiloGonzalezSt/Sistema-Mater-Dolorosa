@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}Admisión · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <h1>Admisión</h1>
+    <p>Postula en línea: te contactaremos para acompañarte en el proceso.</p>
+</section>
+
+<section class="seccion contacto-grid">
+    <div class="contacto-info">
+        <h2>¿Cómo funciona?</h2>
+        <ol class="lista-pasos">
+            <li>Completa el formulario con los datos del postulante y su apoderado.</li>
+            <li>Secretaría revisará tu postulación y te contactará por correo o teléfono.</li>
+            <li>Coordinaremos una entrevista y visita al colegio.</li>
+        </ol>
+        <h2>Consultas</h2>
+        <p>secretaria@materdolorosa.cl · +56226252651<br>Lunes a viernes, 8:00 a 17:00 hrs.</p>
+    </div>
+    <div class="contacto-form">
+        <h2>Formulario de postulación</h2>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-grande">Enviar postulación</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

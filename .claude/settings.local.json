@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(& \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\\\\venv\\\\Scripts\\\\python.exe\" --version)",
+      "PowerShell(& \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\\\\venv\\\\Scripts\\\\pip.exe\" list)",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\\\\static\", \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\\\\media\", \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\\\\templates\" | Out-Null; foreach \\($d in 'static','media','templates'\\) { New-Item -ItemType File -Force \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\\\\$d\\\\.gitkeep\" | Out-Null }; Set-Location \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\"; & \".\\\\venv\\\\Scripts\\\\python.exe\" manage.py check)",
+      "PowerShell(Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -in 3306,3307,3308,3309,3310 } | ForEach-Object { $p = Get-Process -Id $_.OwningProcess -ErrorAction SilentlyContinue; \"$\\($_.LocalAddress\\):$\\($_.LocalPort\\) -> $\\($p.ProcessName\\) \\(PID $\\($_.OwningProcess\\)\\)\" })",
+      "PowerShell(Set-Location \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\"; $env:PYTHONIOENCODING = 'utf-8'; & \".\\\\venv\\\\Scripts\\\\python.exe\" _test_logica.py; if \\($?\\) { Remove-Item \"_test_logica.py\" -Confirm:$false })",
+      "PowerShell($out = \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\\\\static\\\\js\"; New-Item -ItemType Directory -Force $out | Out-Null; try { Invoke-WebRequest -Uri \"https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js\" -OutFile \"$out\\\\chart.umd.min.js\" -UseBasicParsing } catch { Invoke-WebRequest -Uri \"https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js\" -OutFile \"$out\\\\chart.umd.min.js\" -UseBasicParsing }; \\(Get-Item \"$out\\\\chart.umd.min.js\"\\).Length)",
+      "mcp__visualize__show_widget",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\" -Exclude \"venv\" -Directory)",
+      "Bash(Select-Object Name)",
+      "PowerShell(cd \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\" ; $env:DJANGO_SETTINGS_MODULE = \"config.settings.development\" ; .\\\\venv\\\\Scripts\\\\python manage.py migrate axes 2>&1)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "PowerShell(netstat -ano)",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:www.materdolorosa.cl)",
+      "WebFetch(domain:materdolorosa.cl)",
+      "Bash(cat)",
+      "Bash(cp /tmp/q.py \"C:/Users/cajgo/Documents/Mater_Dolorosa/_q.py\")"
+    ]
+  }
+}

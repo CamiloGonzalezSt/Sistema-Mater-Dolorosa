@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if es_cierre %}Resultado de citación{% else %}Citar apoderado{% endif %} · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="card card-panel">
+    {% if es_cierre %}
+    <h1>Resultado de la citación</h1>
+    <p>
+        {{ matricula.alumno.usuario.get_full_name }} — {{ matricula.curso }}<br>
+        Citado: {{ citacion.apoderado.usuario.get_full_name }} · {{ citacion.fecha_hora|date:"d-m-Y H:i" }}<br>
+        Motivo: {{ citacion.motivo }}
+    </p>
+    {% else %}
+    <h1>Citar apoderado</h1>
+    <p>{{ matricula.alumno.usuario.get_full_name }} — {{ matricula.curso }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Guardar</button>
+        <a href="{% url 'convivencia:hoja_vida' matricula.pk %}" class="btn btn-claro-panel">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

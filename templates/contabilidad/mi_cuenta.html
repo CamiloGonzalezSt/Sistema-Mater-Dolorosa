@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mi cuenta · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <h1>Estado de cuenta</h1>
+    <p>Cobros y pagos de tus pupilos. Para pagar o aclarar dudas, contacta a secretaría.</p>
+</div>
+
+{% for pupilo in pupilos %}
+<h2 class="subtitulo-seccion">
+    {{ pupilo.alumno.usuario.get_full_name }}
+    — Saldo pendiente: <strong>${{ pupilo.saldo_total|floatformat:0 }}</strong>
+</h2>
+{% if pupilo.cobros %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Arancel / Período</th>
+            <th>Monto</th>
+            <th>Pagado</th>
+            <th>Saldo</th>
+            <th>Vence</th>
+            <th>Estado</th>
+            <th>Comprobantes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cobro in pupilo.cobros %}
+        <tr>
+            <td>{{ cobro.tipo_arancel.nombre }} · {{ cobro.periodo }}</td>
+            <td>${{ cobro.monto|floatformat:0 }}</td>
+            <td>${{ cobro.total_pagado|floatformat:0 }}</td>
+            <td>${{ cobro.saldo_pendiente|floatformat:0 }}</td>
+            <td>{{ cobro.fecha_vencimiento|date:"d-m-Y" }}</td>
+            <td><span class="badge badge-{{ cobro.estado }}">{{ cobro.get_estado_display }}</span></td>
+            <td>
+                {% for pago in cobro.pagos.all %}
+                <a href="{% url 'contabilidad:comprobante_pdf' pago.pk %}">N°{{ pago.pk|stringformat:"06d" }}</a>{% if not forloop.last %} · {% endif %}
+                {% empty %}—{% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="nota-ayuda">Sin cobros registrados.</p>
+{% endif %}
+{% empty %}
+<div class="card card-panel">
+    <p>Tu cuenta de apoderado aún no tiene pupilos vinculados. Contacta a secretaría.</p>
+</div>
+{% endfor %}
+{% endblock %}

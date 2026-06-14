@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}Calendario · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <h1>Calendario escolar</h1>
+    <p>Actividades y fechas importantes de nuestra comunidad.</p>
+</section>
+
+<section class="seccion">
+    {% if eventos %}
+    {% regroup eventos by fecha|date:"F Y" as por_mes %}
+    {% for mes in por_mes %}
+    <h2 class="seccion-titulo titulo-mes">{{ mes.grouper|capfirst }}</h2>
+    <div class="lista-eventos">
+        {% for evento in mes.list %}
+        <article class="evento">
+            <div class="evento-fecha">
+                <strong>{{ evento.fecha|date:"d" }}</strong>
+                <span>{{ evento.fecha|date:"D"|capfirst }}</span>
+            </div>
+            <div>
+                <h3>{{ evento.titulo }}</h3>
+                <p>
+                    {% if evento.hora %}{{ evento.hora|time:"H:i" }} hrs{% endif %}
+                    {% if evento.lugar %} · {{ evento.lugar }}{% endif %}
+                </p>
+                {% if evento.descripcion %}<p class="evento-descripcion">{{ evento.descripcion }}</p>{% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="seccion-texto">No hay actividades programadas por ahora.</p>
+    {% endif %}
+</section>
+{% endblock %}

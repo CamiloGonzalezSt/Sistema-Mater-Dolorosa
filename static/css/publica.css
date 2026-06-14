@@ -1,0 +1,818 @@
+/* Estilos de la web pública — hereda paleta de base.css */
+
+main.publica {
+    max-width: none;
+    padding: 0;
+}
+
+/* Hero */
+.hero {
+    background: linear-gradient(160deg, var(--color-primario-oscuro) 0%, var(--color-primario) 100%);
+    color: #fff;
+    padding: 4.5rem 1.5rem;
+    text-align: center;
+}
+
+.hero-inner { max-width: 760px; margin: 0 auto; }
+
+.hero-logo {
+    height: 96px;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+}
+
+.hero h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: 0.5px;
+}
+
+.hero-lema {
+    font-size: 1.15rem;
+    opacity: 0.92;
+    margin: 0 0 2rem;
+}
+
+.hero-acciones {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-grande {
+    padding: 0.8rem 1.8rem;
+    font-size: 1.05rem;
+}
+
+.btn-claro {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    color: #fff;
+    backdrop-filter: blur(4px);
+    box-shadow: none;
+}
+
+.btn-claro:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* Secciones */
+.seccion {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem;
+}
+
+.seccion-titulo {
+    text-align: center;
+    color: var(--color-primario);
+    font-size: 1.8rem;
+    margin: 0 0 2.5rem;
+}
+
+.seccion-texto {
+    max-width: 760px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.encabezado-pagina {
+    background: var(--color-primario);
+    color: #fff;
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.encabezado-pagina h1 { margin: 0 0 0.4rem; font-size: 2.2rem; }
+.encabezado-pagina p { margin: 0; opacity: 0.9; font-size: 1.1rem; }
+
+/* Tarjetas */
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.tarjetas-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+.tarjeta {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: 0 2px 10px rgba(1, 13, 97, 0.08);
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 38px rgba(35, 150, 252, 0.16);
+}
+
+.tarjeta-icono { font-size: 2.4rem; margin-bottom: 0.75rem; }
+
+.tarjeta h3, .tarjeta h2 { color: var(--color-primario); margin-top: 0; }
+
+.tarjeta p { line-height: 1.6; color: #444; }
+
+.tarjeta-destacada {
+    border-top: 4px solid var(--color-acento);
+    text-align: left;
+}
+
+/* Llamada a la acción — banner futurista */
+.cta {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background:
+        radial-gradient(circle at 85% 12%, rgba(255, 210, 4, 0.22) 0%, transparent 45%),
+        linear-gradient(135deg, #010D61 0%, #1b63c7 100%);
+    color: #fff;
+    border-radius: 22px;
+    padding: 3.25rem 1.5rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 20px 50px rgba(1, 13, 97, 0.25);
+}
+
+.cta h2 { color: #fff; margin-top: 0; font-size: 1.9rem; }
+
+.cta p { color: rgba(255, 255, 255, 0.88); }
+
+/* Hero v2 — futurista */
+.hero-v2 {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 44px 44px,
+        radial-gradient(circle at 80% 16%, rgba(255, 210, 4, 0.20) 0%, transparent 42%),
+        radial-gradient(circle at 12% 92%, rgba(35, 150, 252, 0.45) 0%, transparent 48%),
+        linear-gradient(140deg, #010A45 0%, #06205f 50%, #0b3aa0 100%);
+    padding: 6rem 1.5rem 5.5rem;
+}
+
+.hero-v2::before {
+    content: '';
+    position: absolute;
+    top: -110px;
+    right: -70px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 210, 4, 0.22), transparent 70%);
+    animation: flotar 7s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.hero-v2 .hero-inner { position: relative; z-index: 1; }
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(6px);
+}
+
+.hero-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #FFD204;
+    box-shadow: 0 0 10px 2px rgba(255, 210, 4, 0.8);
+    animation: pulso 2s ease-in-out infinite;
+}
+
+@keyframes pulso { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.hero-v2 h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    text-shadow: 0 0 36px rgba(35, 150, 252, 0.5);
+}
+
+.hero-logo-flotante {
+    height: 132px;
+    filter: drop-shadow(0 8px 26px rgba(35, 150, 252, 0.55));
+    animation: flotar 5s ease-in-out infinite;
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Franja de cifras — tarjetas de vidrio */
+.franja-cifras {
+    background: linear-gradient(180deg, #05123f 0%, #081a52 100%);
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+}
+
+.franja-cifras .cifra {
+    display: flex;
+    flex-direction: column;
+    min-width: 175px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 1.1rem 1.4rem;
+    backdrop-filter: blur(6px);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.franja-cifras .cifra:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 210, 4, 0.6);
+}
+
+.franja-cifras strong {
+    font-size: 1.35rem;
+    color: #FFD204;
+    text-shadow: 0 0 16px rgba(255, 210, 4, 0.45);
+}
+
+.franja-cifras span { font-size: 0.82rem; opacity: 0.8; margin-top: 0.25rem; }
+
+/* Sección de valores — tarjetas futuristas */
+.seccion-valores { text-align: center; }
+
+.kicker {
+    display: inline-block;
+    color: var(--color-acento);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 0.4rem;
+}
+
+.valores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.valor-card {
+    position: relative;
+    background: #fff;
+    border-radius: 18px;
+    padding: 2.25rem 1.75rem 2rem;
+    text-align: center;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 10px 30px rgba(1, 13, 97, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+}
+
+.valor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2396FC, #FFD204);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+}
+
+.valor-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 44px rgba(35, 150, 252, 0.18);
+    border-color: transparent;
+}
+
+.valor-card:hover::before { transform: scaleX(1); }
+
+.valor-icono {
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+    color: #fff;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #010D61, #2396FC);
+    box-shadow: 0 8px 20px rgba(35, 150, 252, 0.35);
+}
+
+.valor-card h3 { color: var(--color-primario-oscuro); margin: 0 0 0.5rem; font-size: 1.15rem; }
+
+.valor-card p { color: #556; line-height: 1.6; margin: 0; }
+
+/* Secciones con encabezado + enlace */
+.seccion-alterna { background: #E8F2FE; max-width: none; }
+
+.seccion-alterna > * { max-width: 1024px; margin-left: auto; margin-right: auto; }
+
+.seccion-encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.seccion-encabezado .seccion-titulo { margin: 0; text-align: left; }
+
+.btn-volver-claro {
+    color: var(--color-primario-oscuro);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.btn-volver-claro:hover { text-decoration: underline; }
+
+/* Noticias */
+.tarjeta-noticia { padding: 0; text-align: left; overflow: hidden; display: flex; flex-direction: column; }
+
+.noticia-imagen { aspect-ratio: 16 / 9; overflow: hidden; }
+
+.noticia-imagen img { width: 100%; height: 100%; object-fit: cover; }
+
+.noticia-cuerpo { padding: 1.25rem 1.5rem 1.5rem; }
+
+.noticia-fecha { color: var(--color-burdeo); font-weight: 600; }
+
+.noticia-cuerpo a { color: var(--color-primario-oscuro); font-weight: 600; text-decoration: none; }
+
+.noticia-imagen-detalle {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: var(--radio);
+    margin-bottom: 1.5rem;
+}
+
+.noticia-bajada { font-size: 1.15rem; color: #444; font-weight: 500; }
+
+.paginacion { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; }
+
+/* Eventos / calendario */
+.lista-eventos { display: grid; gap: 1rem; max-width: 760px; margin: 0 auto; }
+
+.evento {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: 0 2px 10px rgba(1, 13, 97, 0.08);
+    padding: 1rem 1.5rem;
+}
+
+.evento-fecha {
+    background: var(--color-primario);
+    color: #fff;
+    border-radius: var(--radio);
+    min-width: 64px;
+    padding: 0.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.evento-fecha strong { font-size: 1.4rem; line-height: 1.1; }
+
+.evento-fecha span { font-size: 0.78rem; text-transform: uppercase; opacity: 0.85; }
+
+.evento h3 { margin: 0 0 0.2rem; color: var(--color-primario); font-size: 1.05rem; }
+
+.evento p { margin: 0; color: #666; font-size: 0.9rem; }
+
+.evento-descripcion { margin-top: 0.3rem !important; }
+
+.titulo-mes { margin-top: 2.5rem; }
+
+/* Galería: cards uniformes con object-fit */
+.filtro-anios { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
+
+.chip-anio {
+    padding: 0.4rem 1.1rem;
+    border-radius: 999px;
+    border: 1.5px solid #c8d4e2;
+    color: var(--color-primario);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.chip-anio.activo, .chip-anio:hover {
+    background: var(--color-primario);
+    border-color: var(--color-primario);
+    color: #fff;
+}
+
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.galeria-card {
+    margin: 0;
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: 0 2px 10px rgba(1, 13, 97, 0.08);
+    overflow: hidden;
+}
+
+.galeria-media {
+    aspect-ratio: 4 / 3;   /* tamaño uniforme estricto */
+    overflow: hidden;
+    background: #010D61;
+}
+
+.galeria-media img,
+.galeria-media iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     /* fuerza proporciones sin deformar */
+    border: 0;
+    display: block;
+}
+
+.galeria-card figcaption {
+    padding: 0.7rem 1rem;
+    font-weight: 600;
+    color: var(--color-primario);
+    font-size: 0.92rem;
+}
+
+/* Convivencia escolar */
+.tabla-publica {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(1, 13, 97, 0.08);
+}
+
+.tabla-publica th {
+    background: var(--color-primario);
+    color: #fff;
+    text-align: left;
+    padding: 0.7rem 1rem;
+}
+
+.tabla-publica td { padding: 0.6rem 1rem; border-bottom: 1px solid #e6e9ee; }
+
+/* Admisión */
+.lista-pasos { line-height: 1.9; padding-left: 1.2rem; }
+
+/* Contacto */
+.contacto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3rem;
+}
+
+@media (max-width: 760px) {
+    .contacto-grid { grid-template-columns: 1fr; }
+}
+
+.contacto-info h2, .contacto-form h2 {
+    color: var(--color-primario);
+    font-size: 1.3rem;
+}
+
+.lista-contacto {
+    list-style: none;
+    padding: 0;
+    line-height: 2;
+}
+
+.contacto-form form {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: 0 2px 10px rgba(1, 13, 97, 0.08);
+    padding: 2rem;
+}
+
+.contacto-form textarea {
+    width: 100%;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid #c5ccd6;
+    border-radius: var(--radio);
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.contacto-form textarea:focus {
+    outline: 2px solid var(--color-acento);
+    border-color: var(--color-acento);
+}
+
+/* ==================================================================
+   HOME REDISEÑADA — look premium (misma paleta de base.css)
+   #010D61 marino · #2396FC azul · #FFD204 amarillo · #59200F burdeo
+   ================================================================== */
+
+/* ---- Hero split screen 70 / 30 ---- */
+.home-hero {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    align-items: stretch;
+    min-height: clamp(460px, 74vh, 660px);
+    background: var(--color-primario-oscuro);   /* 70% fondo sólido marino */
+    overflow: hidden;
+}
+
+.home-hero__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.6rem;
+    padding: clamp(2.5rem, 6vw, 6rem);
+    position: relative;
+    z-index: 3;
+}
+
+.home-hero__main .hero-badge { align-self: flex-start; margin-bottom: 0; }
+
+.home-hero__title {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.9rem, 7.5vw, 5.6rem);   /* escala tipográfica dramática */
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -1.5px;
+}
+
+.home-hero__lema {
+    margin: 0;
+    max-width: 30ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.home-hero .hero-acciones { justify-content: flex-start; }
+
+/* El escudo junto a los botones es solo para móvil */
+.home-hero__logo-mobile { display: none; }
+
+/* 30% — panel visual abstracto con glassmorfismo */
+.home-hero__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.home-hero__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(18px);
+    pointer-events: none;
+}
+
+.home-hero__blob--a {
+    width: 280px; height: 280px; top: 8%; right: -40px;
+    background: radial-gradient(circle, rgba(35, 150, 252, 0.65), transparent 70%);
+    animation: flotar 7s ease-in-out infinite;
+}
+
+.home-hero__blob--b {
+    width: 220px; height: 220px; bottom: 6%; left: -50px;
+    background: radial-gradient(circle, rgba(255, 210, 4, 0.38), transparent 70%);
+    animation: flotar 9s ease-in-out infinite reverse;
+}
+
+/* Tarjeta de vidrio que 'pisa' la zona marina (capas superpuestas) */
+.home-hero__glass {
+    position: relative;
+    z-index: 2;
+    width: min(330px, 78%);
+    aspect-ratio: 3 / 4;
+    margin-left: -22%;            /* sobresale hacia el 70% → profundidad */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 34px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.home-hero__logo {
+    width: 62%;
+    filter: drop-shadow(0 10px 30px rgba(35, 150, 252, 0.55));
+    animation: flotar 5s ease-in-out infinite;
+}
+
+/* ---- Cifras: tira de vidrio que se superpone al hero ---- */
+.home-cifras {
+    position: relative;
+    z-index: 5;
+    margin-top: -3.5rem;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+}
+
+.home-cifras__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.home-cifras .cifra {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.4rem 0.8rem;
+    border-left: 2px solid rgba(35, 150, 252, 0.18);
+}
+
+.home-cifras .cifra:first-child { border-left: none; }
+
+.home-cifras strong { color: var(--color-primario-oscuro); font-size: 1.3rem; line-height: 1.15; }
+
+.home-cifras span { color: #5a6473; font-size: 0.82rem; }
+
+/* ---- Bento box asimétrico ---- */
+.home-bento-wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 2rem);
+}
+
+/* Banda superior a todo el ancho */
+.bento-intro {
+    margin-bottom: 1.75rem;
+    border-radius: 26px;
+    padding: clamp(1.7rem, 3vw, 2.4rem) clamp(1.8rem, 3.5vw, 2.8rem);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    background:
+        radial-gradient(circle at 90% 25%, rgba(255, 210, 4, 0.28), transparent 48%),
+        linear-gradient(120deg, var(--color-primario-oscuro), var(--color-primario));
+}
+
+.bento-intro .kicker { color: rgba(255, 255, 255, 0.85); margin: 0; }
+
+.bento-intro h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+    font-weight: 800;
+    line-height: 1.02;
+}
+
+/* 3 tarjetas equilibradas, mismo tamaño */
+.home-bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.bento-card {
+    border-radius: 24px;                 /* esquinas redondeadas */
+    padding: clamp(1.7rem, 2.5vw, 2.3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    background: rgba(255, 255, 255, 0.7);    /* glassmorfismo, sin sombras duras */
+    border: 1px solid #e7ecf4;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1), border-color 0.3s ease;
+}
+
+.bento-card:hover {
+    transform: translateY(-6px);            /* micro-interacción */
+    border-color: var(--color-primario);
+}
+
+.bento-card h3 { margin: 0; color: var(--color-primario-oscuro); font-size: 1.18rem; }
+
+.bento-card p { margin: 0; color: #556; line-height: 1.6; }
+
+/* ---- Noticias: texto de vidrio que pisa la imagen ---- */
+.home-news__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.75rem;
+}
+
+.home-news__card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 26px;
+    background: #fff;
+    border: 1px solid #e7ecf4;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.home-news__card:hover { transform: translateY(-6px); border-color: var(--color-primario); }
+
+.home-news__media { aspect-ratio: 16 / 10; overflow: hidden; }
+
+.home-news__media img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.home-news__card:hover .home-news__media img { transform: scale(1.06); }
+
+.home-news__body {
+    position: relative;
+    z-index: 2;
+    margin: -2.6rem 0.9rem 0;            /* pisa la imagen */
+    padding: 1.1rem 1.25rem 1.35rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.home-news__body h3 { margin: 0.35rem 0 0.4rem; color: var(--color-primario-oscuro); font-size: 1.12rem; }
+
+.home-news__body p { margin: 0 0 0.6rem; color: #556; line-height: 1.55; }
+
+.home-news__body > a { color: var(--color-primario-oscuro); font-weight: 600; text-decoration: none; }
+
+.home-news__body > a:hover { color: var(--color-primario); }
+
+/* ---- Responsive ---- */
+@media (max-width: 880px) {
+    .home-hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    .home-hero__main { padding-top: 2rem; padding-bottom: 2.5rem; }
+    /* Móvil: ocultamos el panel grande; el escudo va junto a los botones */
+    .home-hero__visual { display: none; }
+    .home-hero {
+        background:
+            radial-gradient(circle at 88% 8%, rgba(35, 150, 252, 0.40), transparent 46%),
+            radial-gradient(circle at 6% 96%, rgba(255, 210, 4, 0.14), transparent 42%),
+            var(--color-primario-oscuro);
+    }
+    .hero-acciones-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    .hero-acciones-wrap .hero-acciones {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin: 0;
+    }
+    .home-hero__logo-mobile {
+        display: block;
+        width: 86px;
+        flex: 0 0 auto;
+        filter: drop-shadow(0 8px 22px rgba(35, 150, 252, 0.5));
+    }
+    /* Sin solapamiento en móvil: la tira de cifras no debe tapar los botones */
+    .home-cifras { margin-top: 1.25rem; }
+    .home-bento { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 980px) and (min-width: 881px) {
+    .home-bento { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 620px) {
+    .home-cifras__inner { grid-template-columns: repeat(2, 1fr); }
+    .home-cifras .cifra:nth-child(odd) { border-left: none; }
+}

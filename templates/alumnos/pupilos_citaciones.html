@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Citaciones · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Citaciones</h1>
+        <p>Reuniones programadas y el historial con sus acuerdos.</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'comunicaciones:enviar' %}" class="btn">Solicitar citación</a>
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+<h2 class="subtitulo-seccion">Próximas citaciones</h2>
+{% if programadas %}
+<div class="lista-anotaciones">
+    {% for cit in programadas %}
+    <article class="anotacion">
+        <header>
+            <span class="badge badge-programada">{{ cit.get_estado_display }}</span>
+            <span class="anotacion-meta">
+                {{ cit.fecha_hora|date:"l j \d\e F, H:i" }} hrs ·
+                Alumno: {{ cit.matricula.alumno.usuario.get_full_name }} ·
+                Cita: {{ cit.registrado_por.get_full_name }}
+            </span>
+        </header>
+        <p><strong>Motivo:</strong> {{ cit.motivo }}</p>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<p class="nota-ayuda">No hay citaciones programadas.</p>
+{% endif %}
+
+<h2 class="subtitulo-seccion">Citaciones pasadas</h2>
+{% if historicas %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Alumno</th>
+            <th>Motivo</th>
+            <th>Resolución</th>
+            <th>Acuerdos</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cit in historicas %}
+        <tr>
+            <td>{{ cit.fecha_hora|date:"d-m-Y H:i" }}</td>
+            <td>{{ cit.matricula.alumno.usuario.get_full_name }}</td>
+            <td>{{ cit.motivo|truncatechars:60 }}</td>
+            <td><span class="badge badge-{{ cit.estado }}">{{ cit.get_estado_display }}</span></td>
+            <td>{{ cit.acuerdos|default:"—" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="nota-ayuda">Sin citaciones anteriores.</p>
+{% endif %}
+{% endblock %}

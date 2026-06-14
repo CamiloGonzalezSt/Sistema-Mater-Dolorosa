@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registrar pago · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="card card-panel">
+    <h1>Registrar pago</h1>
+    <p>
+        {{ cobro.matricula.alumno.usuario.get_full_name }} — {{ cobro.matricula.curso }}<br>
+        {{ cobro.tipo_arancel.nombre }} · período {{ cobro.periodo }}<br>
+        Monto: <strong>${{ cobro.monto|floatformat:0 }}</strong> ·
+        Saldo pendiente: <strong>${{ cobro.saldo_pendiente|floatformat:0 }}</strong>
+    </p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Registrar pago</button>
+        <a href="{% url 'contabilidad:cobros' %}" class="btn btn-claro-panel">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

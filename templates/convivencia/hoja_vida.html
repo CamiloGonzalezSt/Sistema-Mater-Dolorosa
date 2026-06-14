@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hoja de vida · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>{{ matricula.alumno.usuario.get_full_name }}</h1>
+        <p>{{ matricula.curso }} · RUT {{ matricula.alumno.rut_alumno }} · Matrícula {{ matricula.get_estado_display|lower }}</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'convivencia:seleccionar' %}" class="btn-volver">Volver al listado</a>
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+<div class="acciones-libro">
+    <a href="{% url 'convivencia:anotar' matricula.pk %}" class="btn">+ Nueva anotación</a>
+    <a href="{% url 'convivencia:citar' matricula.pk %}" class="btn">+ Citar apoderado</a>
+    <a href="{% url 'calificaciones:informe_pdf' matricula.pk %}" class="btn btn-claro-panel">⬇ Informe de notas (PDF)</a>
+</div>
+
+<h2 class="subtitulo-seccion">Anotaciones</h2>
+{% if anotaciones %}
+<div class="lista-anotaciones">
+    {% for a in anotaciones %}
+    <article class="anotacion anotacion-{{ a.tipo }}">
+        <header>
+            <span class="badge badge-{{ a.tipo }}">{{ a.get_tipo_display }}</span>
+            <span class="anotacion-meta">
+                {{ a.fecha|date:"d-m-Y" }} · {{ a.registrado_por.get_full_name }}
+                {% if a.toma_conocimiento %}· ✔ Apoderado notificado{% else %}· Pendiente de toma de conocimiento{% endif %}
+            </span>
+        </header>
+        <p>{{ a.descripcion|linebreaksbr }}</p>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<p class="nota-ayuda">Sin anotaciones registradas este año escolar.</p>
+{% endif %}
+
+<h2 class="subtitulo-seccion">Citaciones</h2>
+{% if citaciones %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Fecha y hora</th>
+            <th>Apoderado</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+            <th>Acuerdos</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cit in citaciones %}
+        <tr>
+            <td>{{ cit.fecha_hora|date:"d-m-Y H:i" }}</td>
+            <td>{{ cit.apoderado.usuario.get_full_name }} ({{ cit.apoderado.get_relacion_display }})</td>
+            <td>{{ cit.motivo|truncatechars:60 }}</td>
+            <td><span class="badge badge-{{ cit.estado }}">{{ cit.get_estado_display }}</span></td>
+            <td>{{ cit.acuerdos|default:"—"|truncatechars:60 }}</td>
+            <td><a href="{% url 'convivencia:cerrar_citacion' cit.pk %}" class="btn">Registrar resultado</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="nota-ayuda">Sin citaciones registradas este año escolar.</p>
+{% endif %}
+{% endblock %}

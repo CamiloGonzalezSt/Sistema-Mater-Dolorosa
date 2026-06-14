@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}Colegio Mater Dolorosa · Inicio{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<!-- ===== HERO · split screen 70 / 30 ===== -->
+<section class="home-hero">
+    <div class="home-hero__main">
+        <span class="hero-badge"><span class="hero-badge-dot"></span> Admisión {% now "Y" %} abierta</span>
+        <h1 class="home-hero__title">Colegio Mater Dolorosa</h1>
+        <p class="home-hero__lema">Educando con fe, excelencia y compromiso para formar las personas del mañana.</p>
+        <div class="hero-acciones-wrap">
+            <div class="hero-acciones">
+                <a href="{% url 'web_publica:admision' %}" class="btn btn-grande">Postula aquí</a>
+                <a href="{% url 'web_publica:quienes_somos' %}" class="btn btn-grande btn-claro">Conócenos</a>
+            </div>
+            <img src="{% static 'img/logo_t.png' %}" alt="" class="home-hero__logo-mobile" aria-hidden="true">
+        </div>
+    </div>
+    <aside class="home-hero__visual" aria-hidden="true">
+        <span class="home-hero__blob home-hero__blob--a"></span>
+        <span class="home-hero__blob home-hero__blob--b"></span>
+        <div class="home-hero__glass">
+            <img src="{% static 'img/logo_t.png' %}" alt="Escudo Colegio Mater Dolorosa" class="home-hero__logo">
+        </div>
+    </aside>
+</section>
+
+<!-- ===== CIFRAS · tira de vidrio que pisa el hero ===== -->
+<section class="home-cifras">
+    <div class="home-cifras__inner">
+        <div class="cifra"><strong>+100</strong><span>años de tradición</span></div>
+        <div class="cifra"><strong>1° Básico a 4° Medio</strong><span>trayectoria completa</span></div>
+        <div class="cifra"><strong>Huechuraba</strong><span>corazón de la comuna</span></div>
+        <div class="cifra"><strong>Siervas de María Dolorosa</strong><span>congregación fundadora</span></div>
+    </div>
+</section>
+
+<!-- ===== BENTO · ¿Por qué elegirnos? ===== -->
+<section class="home-bento-wrap">
+    <div class="bento-intro">
+        <p class="kicker">Nuestro sello</p>
+        <h2>¿Por qué elegirnos?</h2>
+    </div>
+    <div class="home-bento">
+        <article class="bento-card">
+            <div class="valor-icono"><i class="ti ti-book" aria-hidden="true"></i></div>
+            <h3>Excelencia académica</h3>
+            <p>Un proyecto educativo exigente y cercano, que acompaña a cada estudiante en el desarrollo de todo su potencial.</p>
+        </article>
+        <article class="bento-card">
+            <div class="valor-icono"><i class="ti ti-users" aria-hidden="true"></i></div>
+            <h3>Comunidad acogedora</h3>
+            <p>Familias, profesores y estudiantes formamos una comunidad unida, donde cada persona es conocida y valorada.</p>
+        </article>
+        <article class="bento-card">
+            <div class="valor-icono"><i class="ti ti-star" aria-hidden="true"></i></div>
+            <h3>Formación en valores</h3>
+            <p>Educamos personas íntegras, solidarias y responsables, con una sólida formación espiritual y ciudadana.</p>
+        </article>
+    </div>
+</section>
+
+{% if noticias %}
+<!-- ===== NOTICIAS · tarjetas con texto que pisa la imagen ===== -->
+<section class="seccion home-news">
+    <div class="seccion-encabezado">
+        <h2 class="seccion-titulo">Últimas noticias</h2>
+        <a href="{% url 'web_publica:noticias' %}" class="btn-volver-claro">Ver todas →</a>
+    </div>
+    <div class="home-news__grid">
+        {% for noticia in noticias %}
+        <article class="home-news__card">
+            {% if noticia.imagen %}
+            <div class="home-news__media"><img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}"></div>
+            {% endif %}
+            <div class="home-news__body">
+                <small class="noticia-fecha">{{ noticia.fecha|date:"d \d\e F, Y" }}</small>
+                <h3>{{ noticia.titulo }}</h3>
+                <p>{{ noticia.bajada }}</p>
+                <a href="{% url 'web_publica:noticia_detalle' noticia.pk %}">Leer más →</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if eventos %}
+<section class="seccion">
+    <div class="seccion-encabezado">
+        <h2 class="seccion-titulo">Próximas actividades</h2>
+        <a href="{% url 'web_publica:calendario' %}" class="btn-volver-claro">Calendario completo →</a>
+    </div>
+    <div class="lista-eventos">
+        {% for evento in eventos %}
+        <article class="evento">
+            <div class="evento-fecha">
+                <strong>{{ evento.fecha|date:"d" }}</strong>
+                <span>{{ evento.fecha|date:"M" }}</span>
+            </div>
+            <div>
+                <h3>{{ evento.titulo }}</h3>
+                <p>{% if evento.hora %}{{ evento.hora|time:"H:i" }} hrs{% endif %}{% if evento.lugar %} · {{ evento.lugar }}{% endif %}</p>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="seccion cta">
+    <h2>Admisión {% now "Y" %}</h2>
+    <p>Postula en línea en menos de 5 minutos. Te contactaremos para acompañarte en el proceso.</p>
+    <a href="{% url 'web_publica:admision' %}" class="btn btn-grande">Iniciar postulación</a>
+</section>
+{% endblock %}

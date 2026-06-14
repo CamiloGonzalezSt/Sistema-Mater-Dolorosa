@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ingresar notas · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <h1>{{ evaluacion.nombre }}</h1>
+    <p>
+        {{ evaluacion.curso_asignatura.asignatura.nombre }} — {{ evaluacion.curso_asignatura.curso }}
+        · {{ evaluacion.periodo }} · {{ evaluacion.tipo.nombre }}
+        · Puntaje máximo: <strong>{{ evaluacion.puntaje_maximo }}</strong>
+    </p>
+</div>
+
+{% if filas %}
+<form method="post" novalidate>
+    {% csrf_token %}
+    <table class="tabla-libro">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th>Puntaje (máx. {{ evaluacion.puntaje_maximo }})</th>
+                <th>Nota (1.0 – 7.0)</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for matricula, form in filas %}
+            <tr {% if form.errors %}class="fila-error"{% endif %}>
+                <td class="celda-alumno">
+                    {{ matricula.alumno.usuario.get_full_name }}
+                    <small>{{ matricula.alumno.rut_alumno }}</small>
+                </td>
+                <td>{{ form.puntaje_obtenido }}{{ form.puntaje_obtenido.errors }}</td>
+                <td>{{ form.nota }}{{ form.nota.errors }}</td>
+                <td>
+                    {{ form.observacion }}{{ form.observacion.errors }}
+                    {{ form.non_field_errors }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p class="nota-ayuda">Las filas que dejes en blanco no se guardan. Las notas ya guardadas quedan auditadas: toda modificación registra quién y cuándo.</p>
+    <div class="acciones-libro">
+        <button type="submit" class="btn btn-grande">Guardar notas</button>
+        <a href="{% url 'calificaciones:seleccionar' %}" class="btn btn-claro-panel">Volver a evaluaciones</a>
+    </div>
+</form>
+{% else %}
+<div class="card card-panel">
+    <p>El curso de esta evaluación no tiene alumnos matriculados vigentes.</p>
+    <a href="{% url 'calificaciones:seleccionar' %}" class="btn">Volver</a>
+</div>
+{% endif %}
+{% endblock %}

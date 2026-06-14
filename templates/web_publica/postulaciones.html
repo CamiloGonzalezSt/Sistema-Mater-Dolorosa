@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Postulaciones · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Postulaciones de admisión</h1>
+        <p>{{ nuevas }} nueva(s) sin revisar.</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+<form method="get" class="form-filtros">
+    <select name="estado">
+        <option value="">— Todos los estados —</option>
+        {% for valor, nombre in estados %}
+        <option value="{{ valor }}" {% if filtro_estado == valor %}selected{% endif %}>{{ nombre }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn">Filtrar</button>
+</form>
+
+{% if postulaciones %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Postulante</th>
+            <th>Nivel</th>
+            <th>Apoderado / Contacto</th>
+            <th>Mensaje</th>
+            <th>Recibida</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in postulaciones %}
+        <tr>
+            <td class="celda-alumno">
+                {{ p.nombre_postulante }}
+                <small>Nac. {{ p.fecha_nacimiento|date:"d-m-Y" }}</small>
+            </td>
+            <td>{{ p.nivel }}</td>
+            <td class="celda-alumno">
+                {{ p.nombre_apoderado }}
+                <small>{{ p.email }} · {{ p.telefono }}</small>
+            </td>
+            <td>{{ p.mensaje|default:"—"|truncatechars:60 }}</td>
+            <td>{{ p.creado_el|date:"d-m-Y H:i" }}</td>
+            <td>
+                <form method="post" action="{% url 'postulacion_estado' p.pk %}" class="form-estado">
+                    {% csrf_token %}
+                    <select name="estado">
+                        {% for valor, nombre in estados %}
+                        <option value="{{ valor }}" {% if p.estado == valor %}selected{% endif %}>{{ nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn">Guardar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="card card-panel"><p>No hay postulaciones con ese filtro.</p></div>
+{% endif %}
+{% endblock %}

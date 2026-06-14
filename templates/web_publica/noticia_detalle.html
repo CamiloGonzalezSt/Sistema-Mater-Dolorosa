@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}{{ noticia.titulo }} · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <h1>{{ noticia.titulo }}</h1>
+    <p>{{ noticia.fecha|date:"l j \d\e F \d\e Y" }}</p>
+</section>
+
+<section class="seccion seccion-texto">
+    {% if noticia.imagen %}
+    <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="noticia-imagen-detalle">
+    {% endif %}
+    <p class="noticia-bajada">{{ noticia.bajada }}</p>
+    {{ noticia.cuerpo|linebreaks }}
+    <a href="{% url 'web_publica:noticias' %}" class="btn-volver">Volver a noticias</a>
+</section>
+{% endblock %}

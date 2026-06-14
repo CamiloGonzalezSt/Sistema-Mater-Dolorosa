@@ -1,0 +1,4 @@
+-r base.txt
+django-debug-toolbar==4.*
+coverage==7.*
+factory-boy==3.*

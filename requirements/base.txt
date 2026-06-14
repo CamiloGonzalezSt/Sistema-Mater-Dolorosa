@@ -1,0 +1,9 @@
+Django==5.2.*
+mysqlclient==2.2.*
+django-environ==0.13.*
+Pillow==12.*
+django-simple-history==3.*
+reportlab==4.*
+django-axes==7.*
+requests==2.31.*
+beautifulsoup4==4.12.*

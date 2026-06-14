@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mensajes recibidos · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Mensajes recibidos</h1>
+        <p>{{ no_leidos }} sin leer. Las solicitudes de citación se gestionan creando la citación desde la hoja de vida del alumno.</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+{% if mensajes %}
+<div class="lista-anotaciones">
+    {% for m in mensajes %}
+    <article class="anotacion {% if not m.leido %}mensaje-no-leido{% endif %}">
+        <header>
+            <span class="badge {% if m.tipo == 'solicitud_citacion' %}badge-observacion{% else %}badge-programada{% endif %}">{{ m.get_tipo_display }}</span>
+            {% if not m.leido %}<span class="badge badge-negativa">Nuevo</span>{% endif %}
+            <span class="anotacion-meta">
+                {{ m.enviado_el|date:"d-m-Y H:i" }} · De: {{ m.remitente.get_full_name }} ({{ m.remitente.get_role_display }})
+                {% if m.pupilo %} · Alumno: {{ m.pupilo.usuario.get_full_name }}{% endif %}
+            </span>
+        </header>
+        <p><strong>{{ m.asunto }}</strong></p>
+        <p>{{ m.cuerpo|linebreaksbr }}</p>
+        {% if not m.leido %}
+        <form method="post" action="{% url 'comunicaciones:marcar_leido' m.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-claro-panel">Marcar como leído</button>
+        </form>
+        {% endif %}
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card card-panel"><p>No has recibido mensajes.</p></div>
+{% endif %}
+{% endblock %}

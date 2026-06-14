@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Materiales · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Materiales de estudio</h1>
+        <p>{% if matricula %}{{ matricula.curso }} · Año {{ matricula.anio_escolar }}{% else %}No tienes una matrícula vigente este año.{% endif %}</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+{% if materiales %}
+{% regroup materiales by curso_asignatura.asignatura.nombre as por_asignatura %}
+{% for grupo in por_asignatura %}
+<h2 class="subtitulo-seccion">{{ grupo.grouper }}</h2>
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Material</th>
+            <th>Período</th>
+            <th>Unidad</th>
+            <th>Profesor</th>
+            <th>Subido</th>
+            <th class="col-acciones"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for material in grupo.list %}
+        <tr>
+            <td class="celda-alumno">
+                {{ material.titulo }}
+                {% if material.descripcion %}<small>{{ material.descripcion|truncatechars:80 }}</small>{% endif %}
+            </td>
+            <td>{{ material.periodo }}</td>
+            <td>{{ material.unidad|default:"—" }}</td>
+            <td>{{ material.subido_por.get_full_name }}</td>
+            <td>{{ material.creado_el|date:"d-m-Y" }}</td>
+            <td class="col-acciones"><a href="{{ material.archivo.url }}" class="btn" download>⬇ Descargar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+{% else %}
+<div class="card card-panel"><p>Tus profesores aún no publican materiales.</p></div>
+{% endif %}
+{% endblock %}

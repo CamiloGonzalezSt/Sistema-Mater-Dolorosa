@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Libro de notas · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Libro de notas</h1>
+        <p>Filtra por curso, profesor y período para ver las evaluaciones.</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+<form method="get" class="form-filtros">
+    {{ form_filtro.curso }}
+    {{ form_filtro.profesor }}
+    {{ form_filtro.periodo }}
+    <button type="submit" class="btn">Filtrar</button>
+</form>
+
+{% if filtros_aplicados %}
+    {% if evaluaciones %}
+    <table class="tabla-libro">
+        <thead>
+            <tr>
+                <th>Evaluación</th>
+                <th>Asignatura / Curso</th>
+                <th>Tipo</th>
+                <th>Fecha</th>
+                <th class="col-acciones"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ev in evaluaciones %}
+            <tr>
+                <td>{{ ev.nombre }}</td>
+                <td>{{ ev.curso_asignatura.asignatura.nombre }} — {{ ev.curso_asignatura.curso }}</td>
+                <td>{{ ev.tipo.nombre }}</td>
+                <td>{{ ev.fecha|date:"d-m-Y" }}</td>
+                <td class="col-acciones"><a href="{% url 'calificaciones:ingresar' ev.pk %}" class="btn">Ingresar notas</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="card card-panel">
+        <p>No hay evaluaciones para ese curso, profesor y período.</p>
+    </div>
+    {% endif %}
+{% else %}
+<div class="card card-panel">
+    <p>Selecciona <strong>curso</strong>, <strong>profesor</strong> y <strong>período</strong> para mostrar las evaluaciones.</p>
+</div>
+{% endif %}
+{% endblock %}

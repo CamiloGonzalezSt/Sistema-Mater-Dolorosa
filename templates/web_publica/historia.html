@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}{% load static_cache %}
+
+{% block title %}Historia, Misión y Visión · Mater Dolorosa{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/publica.css' %}">{% endblock %}
+
+{% block main_class %}publica{% endblock %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <h1>Nuestra Historia</h1>
+    <p>Más de un siglo educando generaciones.</p>
+</section>
+
+<section class="seccion seccion-texto">
+    <p>
+        Nuestra identidad tiene sus raíces en la Congregación de las Siervas de María
+        Dolorosa, fundada en Florencia alrededor de 1854. Surgió de un grupo de terciarios
+        de la Orden de los Siervos de María que vivían en comunidad bajo el liderazgo de
+        Sor Verónica Donati, dedicándose a la educación de niñas de escasos recursos.
+    </p>
+    <p>
+        Tras la partida de Donati en 1865, fue Sor Giuliana Signorini quien revitalizó la
+        comunidad, dándole mayor estructura dentro de la tradición Siervita. La congregación
+        se incorporó formalmente a la Orden de los Siervos de María en 1876, recibió su
+        reconocimiento pontificio con el «Decreto de Alabanza» en 1913 y su aprobación
+        definitiva en 1931, convirtiéndose en una congregación de derecho pontificio.
+    </p>
+    <p>
+        Con énfasis en la educación y el servicio a los más vulnerables, ese carisma
+        fundacional sigue animando hoy el proyecto educativo del Colegio Mater Dolorosa,
+        que acompaña a sus estudiantes desde 1° Básico hasta 4° Medio en Huechuraba.
+    </p>
+</section>
+
+<section class="seccion">
+    <div class="tarjetas tarjetas-2">
+        <article class="tarjeta tarjeta-destacada">
+            <h2>Misión</h2>
+            <p>
+                Desarrollar en nuestra comunidad educativa una formación integral de los
+                estudiantes en un contexto de equidad e inclusión, formando líderes que se
+                inserten en la sociedad con un proyecto de vida basado en los valores y la
+                espiritualidad que entrega la Congregación Siervas de María Dolorosa.
+            </p>
+        </article>
+        <article class="tarjeta tarjeta-destacada">
+            <h2>Visión</h2>
+            <p>
+                Formar personas de sólida presentación valórica y académica, mediante una
+                educación humanista y cristiana-católica, desarrollando competencias,
+                habilidades y valores que les permitan contribuir positivamente como
+                personas, ciudadanos y miembros de la Iglesia.
+            </p>
+        </article>
+    </div>
+</section>
+
+<section class="seccion">
+    <h2>Sellos educativos</h2>
+    <div class="tarjetas tarjetas-2">
+        <article class="tarjeta">
+            <h2>Ámbito académico</h2>
+            <p>
+                Promover altas expectativas mediante el desarrollo de capacidades centradas
+                en la entrega de conocimientos para lograr aprendizajes significativos.
+            </p>
+        </article>
+        <article class="tarjeta">
+            <h2>Formación cristiana-católica</h2>
+            <p>
+                Orientada a los valores de la congregación —respeto, solidaridad, justicia,
+                igualdad y equidad— formando estudiantes conscientes de sus derechos y
+                responsabilidades en la sociedad.
+            </p>
+        </article>
+    </div>
+</section>
+
+<section class="seccion cta">
+    <h2>Ven a conocernos</h2>
+    <p>Agenda una visita o consúltanos sobre el proceso de admisión.</p>
+    <a href="{% url 'web_publica:contacto' %}" class="btn btn-grande">Contáctanos</a>
+</section>
+{% endblock %}

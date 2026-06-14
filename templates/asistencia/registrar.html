@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pasar lista · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>{{ curso_asignatura.asignatura.nombre }} — {{ curso_asignatura.curso }}</h1>
+        <p>Asistencia del <strong>{{ fecha|date:"l j \d\e F \d\e Y" }}</strong></p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'asistencia:seleccionar' %}" class="btn-volver">Cambiar asignatura o fecha</a>
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+{% if filas %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="fecha" value="{{ fecha|date:'Y-m-d' }}">
+    <table class="tabla-libro">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th>Estado</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for matricula, form in filas %}
+            <tr {% if form.errors %}class="fila-error"{% endif %}>
+                <td class="celda-alumno">
+                    {{ matricula.alumno.usuario.get_full_name }}
+                    <small>{{ matricula.alumno.rut_alumno }}</small>
+                </td>
+                <td class="celda-estados opciones-asistencia">
+                    {{ form.estado }}
+                    {{ form.estado.errors }}
+                </td>
+                <td>
+                    {{ form.observacion }}
+                    {{ form.observacion.errors }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="acciones-libro">
+        <button type="submit" class="btn btn-grande">Guardar asistencia</button>
+        <a href="{% url 'asistencia:libro_pdf' curso_asignatura.pk %}?mes={{ fecha|date:'Y-m' }}" class="btn btn-claro-panel">⬇ Libro del mes (PDF)</a>
+    </div>
+</form>
+{% else %}
+<div class="card card-panel">
+    <p>Este curso no tiene alumnos matriculados vigentes (regulares o repitentes).</p>
+    <a href="{% url 'asistencia:seleccionar' %}" class="btn">Volver</a>
+</div>
+{% endif %}
+{% endblock %}

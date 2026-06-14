@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notas · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Notas</h1>
+        <p>Calificaciones por asignatura con promedios (solo lectura).</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+{% for boletin in boletines %}
+<h2 class="subtitulo-seccion">{{ boletin.pupilo.usuario.get_full_name }}</h2>
+{% if boletin.ramos %}
+<table class="tabla-libro">
+    <thead>
+        <tr>
+            <th>Asignatura</th>
+            <th>Notas</th>
+            <th>Promedio</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ramo in boletin.ramos %}
+        <tr>
+            <td class="celda-alumno">{{ ramo.asignatura }}</td>
+            <td>
+                {% for cal in ramo.calificaciones %}
+                <span class="nota-pill {% if cal.nota < 4 %}nota-roja{% endif %}" title="{{ cal.evaluacion.nombre }} ({{ cal.evaluacion.fecha|date:'d-m-Y' }})">{{ cal.nota|floatformat:1 }}</span>
+                {% endfor %}
+            </td>
+            <td class="{% if not ramo.aprobado %}nota-roja{% endif %}"><strong>{{ ramo.promedio|floatformat:2 }}</strong></td>
+            <td>
+                {% if ramo.aprobado %}
+                <span class="estado-aprobado">Aprobado</span>
+                {% else %}
+                <span class="estado-reprobado">Reprobado</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr class="fila-promedio-general">
+            <td colspan="2"><strong>Promedio general</strong></td>
+            <td class="{% if not boletin.aprobado_general %}nota-roja{% endif %}"><strong>{{ boletin.promedio_general|floatformat:2 }}</strong></td>
+            <td>
+                {% if boletin.aprobado_general %}
+                <span class="estado-aprobado">Aprobado</span>
+                {% else %}
+                <span class="estado-reprobado">Reprobado</span>
+                {% endif %}
+            </td>
+        </tr>
+    </tfoot>
+</table>
+{% else %}
+<p class="nota-ayuda">Sin calificaciones registradas.</p>
+{% endif %}
+{% empty %}
+<div class="card card-panel"><p>Tu cuenta no tiene pupilos vinculados. Contacta a secretaría.</p></div>
+{% endfor %}
+{% endblock %}

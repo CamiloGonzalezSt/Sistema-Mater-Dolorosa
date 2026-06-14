@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mis mensajes · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Mis mensajes</h1>
+        <p>Mensajes que has enviado a los profesores.</p>
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'comunicaciones:enviar' %}" class="btn">+ Nuevo mensaje</a>
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+{% if mensajes %}
+<div class="lista-anotaciones">
+    {% for m in mensajes %}
+    <article class="anotacion">
+        <header>
+            <span class="badge {% if m.tipo == 'solicitud_citacion' %}badge-observacion{% else %}badge-programada{% endif %}">{{ m.get_tipo_display }}</span>
+            <span class="badge {% if m.leido %}badge-realizada{% else %}badge-pendiente{% endif %}">{% if m.leido %}Leído{% else %}Enviado{% endif %}</span>
+            <span class="anotacion-meta">
+                {{ m.enviado_el|date:"d-m-Y H:i" }} · Para: {{ m.destinatario.get_full_name }}
+                {% if m.pupilo %} · Alumno: {{ m.pupilo.usuario.get_full_name }}{% endif %}
+            </span>
+        </header>
+        <p><strong>{{ m.asunto }}</strong></p>
+        <p>{{ m.cuerpo|linebreaksbr }}</p>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card card-panel">
+    <p>Aún no envías mensajes.</p>
+    <a href="{% url 'comunicaciones:enviar' %}" class="btn">Escribir el primero</a>
+</div>
+{% endif %}
+{% endblock %}

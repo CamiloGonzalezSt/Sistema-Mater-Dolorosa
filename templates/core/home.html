@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Panel · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Bienvenido(a), {{ user.get_full_name|default:user.email }}</h1>
+        <p>Has iniciado sesión como <strong>{{ user.get_role_display }}</strong>.</p>
+    </div>
+</div>
+
+{% if user.role == 'profesor' or user.role == 'admin' %}
+<div class="panel-modulos">
+    <a class="modulo-card" href="{% url 'asistencia:seleccionar' %}">
+        <span class="modulo-icono"><i class="ti ti-clipboard-check" aria-hidden="true"></i></span>
+        <h3>Registrar asistencia</h3>
+        <p>Pasa la lista de tus asignaturas y corrige registros del día.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'calificaciones:seleccionar' %}">
+        <span class="modulo-icono"><i class="ti ti-notebook" aria-hidden="true"></i></span>
+        <h3>Libro de notas</h3>
+        <p>Ingresa y edita las calificaciones de tus evaluaciones.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'convivencia:seleccionar' %}">
+        <span class="modulo-icono"><i class="ti ti-book-2" aria-hidden="true"></i></span>
+        <h3>Hoja de vida y citaciones</h3>
+        <p>Anotaciones de convivencia y citaciones de apoderados.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'comunicaciones:mensajes' %}">
+        <span class="modulo-icono"><i class="ti ti-mail" aria-hidden="true"></i></span>
+        <h3>Mensajes recibidos</h3>
+        <p>Mensajes y solicitudes de citación de alumnos y apoderados.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'academico:materiales_gestion' %}">
+        <span class="modulo-icono"><i class="ti ti-folder" aria-hidden="true"></i></span>
+        <h3>Materiales de estudio</h3>
+        <p>Publica guías y recursos para tus cursos por período y unidad.</p>
+    </a>
+    {% if user.role == 'admin' %}
+    <a class="modulo-card" href="{% url 'contabilidad:cobros' %}">
+        <span class="modulo-icono"><i class="ti ti-cash" aria-hidden="true"></i></span>
+        <h3>Contabilidad</h3>
+        <p>Cobros, pagos, generación masiva y comprobantes.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'postulaciones_admin' %}">
+        <span class="modulo-icono"><i class="ti ti-school" aria-hidden="true"></i></span>
+        <h3>Postulaciones</h3>
+        <p>Revisa y gestiona las postulaciones de admisión recibidas.</p>
+    </a>
+    {% endif %}
+    {% if user.is_staff %}
+    <a class="modulo-card" href="{% url 'admin:index' %}">
+        <span class="modulo-icono"><i class="ti ti-settings" aria-hidden="true"></i></span>
+        <h3>Administración</h3>
+        <p>Gestión de usuarios, cursos, matrículas y configuración.</p>
+    </a>
+    {% endif %}
+</div>
+
+<h2 class="subtitulo-seccion">Resumen {% if user.role == 'admin' %}del colegio{% else %}de mis asignaturas{% endif %}</h2>
+<div class="dash-kpis">
+    <div class="dash-kpi">
+        <span class="dash-kpi-valor" id="kpi-asistencia">…</span>
+        <span class="dash-kpi-etiqueta">Asistencia de hoy</span>
+    </div>
+    <div class="dash-kpi">
+        <span class="dash-kpi-valor" id="kpi-citaciones">…</span>
+        <span class="dash-kpi-etiqueta">Citaciones pendientes</span>
+    </div>
+</div>
+
+<div class="dash-grid">
+    <div class="dash-card">
+        <h3>Asistencia últimos 30 días</h3>
+        <canvas id="chart-asistencia"></canvas>
+        <p class="dash-vacio" hidden>Aún no hay registros de asistencia este período.</p>
+    </div>
+    <div class="dash-card">
+        <h3>Promedio por asignatura</h3>
+        <canvas id="chart-promedios"></canvas>
+        <p class="dash-vacio" hidden>Aún no hay notas ingresadas este año.</p>
+    </div>
+    <div class="dash-card">
+        <h3>Distribución de notas</h3>
+        <canvas id="chart-distribucion"></canvas>
+        <p class="dash-vacio" hidden>Aún no hay notas ingresadas este año.</p>
+    </div>
+    <div class="dash-card">
+        <h3>Anotaciones del mes</h3>
+        <canvas id="chart-anotaciones"></canvas>
+        <p class="dash-vacio" hidden>Sin anotaciones registradas este mes.</p>
+    </div>
+</div>
+{% elif user.role == 'apoderado' %}
+<div class="panel-modulos">
+    <a class="modulo-card" href="{% url 'alumnos:pupilos_notas' %}">
+        <span class="modulo-icono"><i class="ti ti-notebook" aria-hidden="true"></i></span>
+        <h3>Notas</h3>
+        <p>Calificaciones por asignatura, promedios y estado de aprobación.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'alumnos:pupilos_anotaciones' %}">
+        <span class="modulo-icono"><i class="ti ti-book-2" aria-hidden="true"></i></span>
+        <h3>Anotaciones</h3>
+        <p>Hoja de vida de tus pupilos en solo lectura.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'alumnos:pupilos_citaciones' %}">
+        <span class="modulo-icono"><i class="ti ti-calendar-event" aria-hidden="true"></i></span>
+        <h3>Citaciones</h3>
+        <p>Reuniones programadas y acuerdos de las anteriores.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'comunicaciones:mensajes' %}">
+        <span class="modulo-icono"><i class="ti ti-mail" aria-hidden="true"></i></span>
+        <h3>Comunicación</h3>
+        <p>Escribe a los profesores o solicita una citación.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'mi_cuenta' %}">
+        <span class="modulo-icono"><i class="ti ti-wallet" aria-hidden="true"></i></span>
+        <h3>Estado de cuenta</h3>
+        <p>Cobros, pagos y saldos de tus pupilos, con comprobantes descargables.</p>
+    </a>
+</div>
+{% elif user.role == 'alumno' %}
+<div class="panel-modulos">
+    <a class="modulo-card" href="{% url 'academico:materiales' %}">
+        <span class="modulo-icono"><i class="ti ti-folder" aria-hidden="true"></i></span>
+        <h3>Materiales de estudio</h3>
+        <p>Guías y recursos de tus asignaturas, por período y unidad.</p>
+    </a>
+    <a class="modulo-card" href="{% url 'comunicaciones:mensajes' %}">
+        <span class="modulo-icono"><i class="ti ti-mail" aria-hidden="true"></i></span>
+        <h3>Mensajes</h3>
+        <p>Escríbele a tus profesores con copia a su correo.</p>
+    </a>
+</div>
+{% else %}
+<div class="card card-panel">
+    <p>Los módulos para tu perfil ({{ user.get_role_display }}) estarán disponibles en una próxima etapa.</p>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if user.role == 'profesor' or user.role == 'admin' %}
+<script src="{% static 'js/chart.umd.min.js' %}"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endif %}
+{% endblock %}
