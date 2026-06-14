@@ -12,16 +12,38 @@
 </section>
 
 <section class="seccion">
-    {% if eventos %}
-    {% regroup eventos by fecha|date:"F Y" as por_mes %}
-    {% for mes in por_mes %}
-    <h2 class="seccion-titulo titulo-mes">{{ mes.grouper|capfirst }}</h2>
+    <div class="cal-barra">
+        <a class="cal-nav" href="?anio={{ nav_anterior.anio }}&mes={{ nav_anterior.mes }}" aria-label="Mes anterior">‹</a>
+        <h2 class="cal-mes">{{ mes_actual|date:"F Y"|capfirst }}</h2>
+        <a class="cal-nav" href="?anio={{ nav_siguiente.anio }}&mes={{ nav_siguiente.mes }}" aria-label="Mes siguiente">›</a>
+    </div>
+
+    <div class="cal-grid" role="grid">
+        {% for dia in dias_semana %}<div class="cal-encabezado" role="columnheader">{{ dia }}</div>{% endfor %}
+        {% for semana in semanas %}
+            {% for celda in semana %}
+            <div class="cal-celda{% if not celda.dia %} cal-celda-vacia{% endif %}{% if celda.hoy %} cal-hoy{% endif %}" role="gridcell">
+                {% if celda.dia %}
+                <span class="cal-dia">{{ celda.dia }}</span>
+                {% for evento in celda.eventos %}
+                <span class="cal-evento" title="{{ evento.titulo }}{% if evento.hora %} · {{ evento.hora|time:'H:i' }} hrs{% endif %}{% if evento.lugar %} · {{ evento.lugar }}{% endif %}">{{ evento.titulo }}</span>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="seccion">
+    <h2 class="seccion-titulo">Próximas actividades</h2>
+    {% if proximos %}
     <div class="lista-eventos">
-        {% for evento in mes.list %}
+        {% for evento in proximos %}
         <article class="evento">
             <div class="evento-fecha">
                 <strong>{{ evento.fecha|date:"d" }}</strong>
-                <span>{{ evento.fecha|date:"D"|capfirst }}</span>
+                <span>{{ evento.fecha|date:"M"|capfirst }}</span>
             </div>
             <div>
                 <h3>{{ evento.titulo }}</h3>
@@ -34,7 +56,6 @@
         </article>
         {% endfor %}
     </div>
-    {% endfor %}
     {% else %}
     <p class="seccion-texto">No hay actividades programadas por ahora.</p>
     {% endif %}

@@ -1,3 +1,6 @@
+import calendar as _calendar
+from datetime import date, timedelta
+
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -71,8 +74,40 @@ class CalendarioView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        desde = timezone.localdate().replace(day=1)
-        context['eventos'] = EventoCalendario.objects.filter(fecha__gte=desde)
+        hoy = timezone.localdate()
+        try:
+            anio = int(self.request.GET.get('anio', hoy.year))
+            mes = int(self.request.GET.get('mes', hoy.month))
+            primero = date(anio, mes, 1)
+        except (ValueError, TypeError):
+            anio, mes = hoy.year, hoy.month
+            primero = date(anio, mes, 1)
+
+        eventos_mes = EventoCalendario.objects.filter(fecha__year=anio, fecha__month=mes)
+        por_dia = {}
+        for evento in eventos_mes:
+            por_dia.setdefault(evento.fecha.day, []).append(evento)
+
+        semanas = []
+        for semana in _calendar.Calendar(firstweekday=0).monthdayscalendar(anio, mes):
+            semanas.append([
+                {
+                    'dia': dia,
+                    'eventos': por_dia.get(dia, []) if dia else [],
+                    'hoy': dia and date(anio, mes, dia) == hoy,
+                }
+                for dia in semana
+            ])
+
+        anterior = primero - timedelta(days=1)
+        siguiente = date(anio + 1, 1, 1) if mes == 12 else date(anio, mes + 1, 1)
+
+        context['semanas'] = semanas
+        context['mes_actual'] = primero
+        context['dias_semana'] = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+        context['nav_anterior'] = {'anio': anterior.year, 'mes': anterior.month}
+        context['nav_siguiente'] = {'anio': siguiente.year, 'mes': siguiente.month}
+        context['proximos'] = EventoCalendario.objects.filter(fecha__gte=hoy)[:6]
         return context
 
 

@@ -416,6 +416,110 @@ main.publica {
 
 .titulo-mes { margin-top: 2.5rem; }
 
+/* Calendario en grilla mensual */
+.cal-barra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.cal-mes {
+    margin: 0;
+    color: var(--color-primario-oscuro);
+    font-size: 1.5rem;
+    font-weight: 800;
+    min-width: 12rem;
+    text-align: center;
+}
+
+.cal-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radio-full);
+    border: var(--borde);
+    background: var(--color-superficie);
+    color: var(--color-primario-oscuro);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: border-color var(--transicion), background var(--transicion);
+}
+
+.cal-nav:hover { border-color: var(--color-primario); background: var(--color-azul-tenue); }
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.cal-encabezado {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--color-texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 0;
+}
+
+.cal-celda {
+    min-height: 96px;
+    border: var(--borde);
+    border-radius: var(--radio);
+    padding: 0.4rem;
+    background: var(--color-superficie);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.cal-celda-vacia { background: transparent; border-color: transparent; }
+
+.cal-dia { font-size: 0.85rem; font-weight: 700; color: var(--color-texto-suave); }
+
+.cal-hoy {
+    border-color: var(--color-primario);
+    box-shadow: inset 0 0 0 1px var(--color-primario);
+}
+
+.cal-hoy .cal-dia {
+    align-self: flex-start;
+    background: var(--color-primario);
+    color: #fff;
+    border-radius: var(--radio-full);
+    min-width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    padding: 0 0.3rem;
+}
+
+.cal-evento {
+    display: block;
+    background: linear-gradient(135deg, var(--color-primario-oscuro), var(--color-primario));
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radio-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+    .cal-celda { min-height: 64px; padding: 0.25rem; }
+    .cal-evento { font-size: 0; padding: 0.3rem; }  /* en móvil, punto en vez de texto */
+    .cal-evento::before { content: '•'; font-size: 0.9rem; }
+    .cal-encabezado { font-size: 0.65rem; }
+}
+
 /* Galería: cards uniformes con object-fit */
 .filtro-anios { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
 
