@@ -20,7 +20,10 @@
       "Bash(cat)",
       "Bash(cp /tmp/q.py \"C:/Users/cajgo/Documents/Mater_Dolorosa/_q.py\")",
       "Bash(git add *)",
-      "Bash(git commit -q -m ' *)"
+      "Bash(git commit -q -m ' *)",
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _u.py)",
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _u2.py)",
+      "Bash(git rm *)"
     ]
   }
 }

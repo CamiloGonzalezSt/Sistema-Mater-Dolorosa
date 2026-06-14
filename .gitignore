@@ -23,6 +23,9 @@ node_modules/
 # Logs
 *.log
 
+# Scripts scratch temporales en la raíz
+/_*.py
+
 # IDE / SO
 .vscode/
 .idea/
