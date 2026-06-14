@@ -18,7 +18,9 @@
       "WebFetch(domain:www.materdolorosa.cl)",
       "WebFetch(domain:materdolorosa.cl)",
       "Bash(cat)",
-      "Bash(cp /tmp/q.py \"C:/Users/cajgo/Documents/Mater_Dolorosa/_q.py\")"
+      "Bash(cp /tmp/q.py \"C:/Users/cajgo/Documents/Mater_Dolorosa/_q.py\")",
+      "Bash(git add *)",
+      "Bash(git commit -q -m ' *)"
     ]
   }
 }

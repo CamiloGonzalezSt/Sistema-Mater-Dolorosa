@@ -1,5 +1,5 @@
 :root {
-    /* Paleta institucional: azul brillante, azul marino, blanco, amarillo, café oscuro */
+    /* ===== Paleta institucional (no modificar sin acuerdo) ===== */
     --color-primario: #2396FC;          /* azul brillante */
     --color-primario-oscuro: #010D61;   /* azul marino — hovers y degradados */
     --color-acento: #2396FC;            /* enlaces y focos */
@@ -10,20 +10,61 @@
     --color-texto: #222;
     --color-error: #59200F;
     --color-exito: #010D61;             /* estados positivos (azul marino: no hay verde en la paleta) */
-    --radio: 6px;
+
+    /* Colores de apoyo derivados (superficies, bordes, texto suave) */
+    --color-superficie: #ffffff;
+    --color-superficie-2: #f4f7fb;      /* fondos alternos suaves */
+    --color-borde: #e7ecf4;
+    --color-texto-suave: #556070;
+    --color-azul-tenue: #E8F2FE;        /* hovers/fondos azul muy claro */
+
+    /* ===== Tokens de diseño ===== */
+    /* Radios */
+    --radio-sm: 8px;
+    --radio: 12px;
+    --radio-md: 16px;
+    --radio-lg: 22px;
+    --radio-xl: 28px;
+    --radio-full: 999px;
+
+    /* Espaciado (escala 4px) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-8: 3rem;
+    --space-10: 4rem;
+
+    /* Sombras suaves con tinte marino (evitar sombras duras genéricas) */
+    --shadow-sm: 0 1px 3px rgba(1, 13, 97, 0.06);
+    --shadow-md: 0 8px 24px rgba(1, 13, 97, 0.08);
+    --shadow-lg: 0 18px 44px rgba(35, 150, 252, 0.16);
+
+    /* Tipografía — swap --font-display por una fuente vendoreada cuando exista */
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-display: var(--font-sans);
+
+    /* Interacción */
+    --ring: 0 0 0 3px rgba(35, 150, 252, 0.18);
+    --transicion: 0.18s cubic-bezier(0.2, 0.7, 0.3, 1);
+    --borde: 1px solid var(--color-borde);
 }
 
 * { box-sizing: border-box; }
 
 body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-sans);
     background: var(--color-fondo);
     color: var(--color-texto);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
+
+h1, h2, h3, .home-hero__title, .bento-intro h2 { font-family: var(--font-display); }
 
 .topbar {
     background: var(--color-primario-oscuro);
@@ -128,9 +169,9 @@ body {
     top: 100%;
     left: 0;
     min-width: 12rem;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 10px 28px rgba(1, 13, 97, 0.28);
+    background: var(--color-superficie);
+    border-radius: var(--radio);
+    box-shadow: var(--shadow-lg);
     padding: 0.4rem 0;
     margin-top: 0.4rem;
     z-index: 200;
@@ -230,9 +271,10 @@ body {
 
 /* Tarjetas (formularios de auth, etc.) */
 .card {
-    background: #fff;
-    border-radius: var(--radio);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    background: var(--color-superficie);
+    border: var(--borde);
+    border-radius: var(--radio-md);
+    box-shadow: var(--shadow-sm);
     padding: 2rem;
     max-width: 420px;
     margin: 2rem auto;
@@ -365,11 +407,11 @@ form .helptext {
     align-items: center;
     gap: 0.65rem;
     padding: 0.8rem 1.1rem;
-    border-radius: 12px;
-    background: #fff;
-    border: 1px solid #e6e9ee;
+    border-radius: var(--radio);
+    background: var(--color-superficie);
+    border: var(--borde);
     border-left: 4px solid var(--color-acento);
-    box-shadow: 0 6px 18px rgba(1, 13, 97, 0.08);
+    box-shadow: var(--shadow-md);
     font-size: 0.92rem;
 }
 
@@ -448,3 +490,42 @@ main.auth { max-width: none; padding: 0; display: flex; }
     .auth-brand img { height: 76px; }
     .auth-brand h2 { font-size: 1.3rem; }
 }
+
+/* ===== Accesibilidad global ===== */
+/* Foco visible coherente en todo elemento interactivo */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid rgba(35, 150, 252, 0.55);
+    outline-offset: 2px;
+    border-radius: var(--radio-sm);
+}
+
+/* Respeta a quien prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Enlace para saltar al contenido (lectores de pantalla / teclado) */
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 1000;
+    background: var(--color-amarillo);
+    color: var(--color-primario-oscuro);
+    padding: 0.6rem 1rem;
+    border-radius: 0 0 var(--radio) 0;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.skip-link:focus { left: 0; }
