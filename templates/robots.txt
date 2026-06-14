@@ -3,3 +3,5 @@ Allow: /
 Disallow: /panel/
 Disallow: /admin/
 Disallow: /accounts/
+
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml

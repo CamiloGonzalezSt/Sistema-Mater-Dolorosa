@@ -1,6 +1,7 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, FormView, ListView, TemplateView, View
 
@@ -11,6 +12,26 @@ from .forms import ContactoForm, PostulacionForm
 from .models import (
     EquipoConvivencia, EventoCalendario, ItemGaleria, Noticia, Postulacion,
 )
+
+
+def sitemap_xml(request):
+    """Sitemap básico con las páginas públicas y las noticias publicadas."""
+    estaticas = [
+        'home', 'historia', 'quienes_somos', 'noticias', 'calendario',
+        'galeria', 'convivencia_escolar', 'admision', 'contacto',
+    ]
+    urls = [request.build_absolute_uri(reverse(f'web_publica:{n}')) for n in estaticas]
+    noticias = Noticia.objects.filter(publicada=True).values_list('pk', flat=True)
+    urls += [
+        request.build_absolute_uri(reverse('web_publica:noticia_detalle', args=[pk]))
+        for pk in noticias
+    ]
+    cuerpo = ['<?xml version="1.0" encoding="UTF-8"?>',
+              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for u in urls:
+        cuerpo.append(f'  <url><loc>{u}</loc></url>')
+    cuerpo.append('</urlset>')
+    return HttpResponse('\n'.join(cuerpo), content_type='application/xml')
 
 
 class HomePublicaView(TemplateView):

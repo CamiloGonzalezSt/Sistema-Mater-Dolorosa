@@ -7,13 +7,32 @@ from django.views.generic import TemplateView
 
 from apps.contabilidad.views import MiCuentaView
 from apps.core.views import DashboardDataView, HomeView
-from apps.web_publica.views import CambiarEstadoPostulacionView, PostulacionesAdminView
+from apps.web_publica.views import (
+    CambiarEstadoPostulacionView, PostulacionesAdminView, sitemap_xml,
+)
 
 urlpatterns = [
     path(
         'robots.txt',
         TemplateView.as_view(template_name='robots.txt', content_type='text/plain'),
         name='robots',
+    ),
+    path('sitemap.xml', sitemap_xml, name='sitemap'),
+    path(
+        'manifest.webmanifest',
+        TemplateView.as_view(
+            template_name='manifest.webmanifest',
+            content_type='application/manifest+json',
+        ),
+        name='manifest',
+    ),
+    path(
+        'sw.js',
+        TemplateView.as_view(
+            template_name='sw.js',
+            content_type='application/javascript',
+        ),
+        name='service_worker',
     ),
     path('', include('apps.web_publica.urls')),
     path('panel/', HomeView.as_view(), name='home'),

@@ -6,7 +6,9 @@
     <title>{% block title %}Mater Dolorosa{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Colegio Mater Dolorosa, comunidad educativa católica en Huechuraba que acompaña a sus estudiantes de 1° Básico a 4° Medio con excelencia académica y formación en valores.{% endblock %}">
     <link rel="icon" href="{% static 'img/logo_t.png' %}" type="image/png">
-    <link rel="apple-touch-icon" href="{% static 'img/logo_t.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/icon-192.png' %}">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#010D61">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{% block og_title %}Colegio Mater Dolorosa{% endblock %}">
     <meta property="og:description" content="Comunidad educativa católica en Huechuraba.">
@@ -98,5 +100,12 @@
         }, 5000);
     </script>
     {% block extra_js %}{% endblock %}
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js').catch(function () {});
+            });
+        }
+    </script>
 </body>
 </html>

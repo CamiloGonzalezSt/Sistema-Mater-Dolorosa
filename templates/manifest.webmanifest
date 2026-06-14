@@ -1,0 +1,16 @@
+{% load static %}{
+  "name": "Colegio Mater Dolorosa",
+  "short_name": "Mater Dolorosa",
+  "description": "Sitio y portal del Colegio Mater Dolorosa: noticias, admisión y plataforma de la comunidad educativa.",
+  "lang": "es-CL",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#010D61",
+  "theme_color": "#010D61",
+  "icons": [
+    {"src": "{% static 'img/icon-192.png' %}", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "{% static 'img/icon-512.png' %}", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
