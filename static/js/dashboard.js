@@ -21,6 +21,20 @@
                     : d.asistencia_hoy.porcentaje_presentes + '% presentes hoy');
             texto('kpi-citaciones', d.citaciones_pendientes);
 
+            // Tendencia de asistencia (hoy vs. promedio previo)
+            const elTrend = document.getElementById('kpi-asistencia-trend');
+            const t = d.asistencia_hoy.tendencia;
+            if (elTrend && t !== null && t !== undefined) {
+                const sube = t >= 0;
+                const flecha = sube ? '▲' : '▼';
+                const signo = sube ? '+' : '';
+                elTrend.textContent = flecha + ' ' + signo + t + ' pts vs. media';
+                elTrend.classList.toggle('trend-up', sube);
+                elTrend.classList.toggle('trend-down', !sube);
+                elTrend.hidden = false;
+                elTrend.title = 'Promedio de días previos: ' + d.asistencia_hoy.promedio_previo + '%';
+            }
+
             // Serie de asistencia (línea)
             const elSerie = document.getElementById('chart-asistencia');
             if (elSerie && d.asistencia_serie.fechas.length) {

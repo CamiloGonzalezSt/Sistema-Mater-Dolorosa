@@ -27,7 +27,9 @@
       "PowerShell(cd \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\" ; .\\\\venv\\\\Scripts\\\\python -m fontTools.subset static/css/fonts/tabler-icons.woff2 --unicodes=ea39,efc5,ea52,ea55,ea5f,ea6c,eaad,f02c,fc76,eba8,eae5,ec42,eb96,ecf7,eb20,eb2e,ebf2,eb75 --flavor=woff2 --output-file=static/css/fonts/tabler-icons.subset.woff2 2>&1 | Select-Object -Last 3 ; echo \"=== Tamaños ===\" ; \\(Get-Item static/css/fonts/tabler-icons.woff2\\).Length ; \\(Get-Item static/css/fonts/tabler-icons.subset.woff2\\).Length ; \\(Get-Item static/css/tabler-icons.subset.css\\).Length)",
       "Bash(printf '%s\\\\n' 'from PIL import Image' 'from pathlib import Path' 'base = Path\\(\".\"\\)' 'logo = Image.open\\(base/\"static\"/\"img\"/\"logo_t.png\"\\).convert\\(\"RGBA\"\\)' 'navy = \\(1, 13, 97, 255\\)' 'for size in \\(192, 512\\):' '    canvas = Image.new\\(\"RGBA\", \\(size, size\\), navy\\)' '    pad = int\\(size * 0.16\\)' '    box = size - 2 * pad' '    lw, lh = logo.size' '    scale = min\\(box / lw, box / lh\\)' '    nw, nh = int\\(lw * scale\\), int\\(lh * scale\\)' '    resized = logo.resize\\(\\(nw, nh\\), Image.LANCZOS\\)' '    canvas.paste\\(resized, \\(\\(size - nw\\)//2, \\(size - nh\\)//2\\), resized\\)' '    out = base/\"static\"/\"img\"/f\"icon-{size}.png\"' '    canvas.convert\\(\"RGB\"\\).save\\(out, \"PNG\"\\)' '    print\\(out, canvas.size\\)')",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _icons.py)",
-      "Bash(rm -f _icons.py)"
+      "Bash(rm -f _icons.py)",
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _att.py)",
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _att2.py)"
     ]
   }
 }

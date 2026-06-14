@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static %}{% load static_cache %}
 
 {% block title %}Panel · Mater Dolorosa{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static_v 'css/panel.css' %}">{% endblock %}
 
 {% block content %}
 <div class="panel-encabezado">
@@ -65,6 +65,7 @@
     <div class="dash-kpi">
         <span class="dash-kpi-valor" id="kpi-asistencia">…</span>
         <span class="dash-kpi-etiqueta">Asistencia de hoy</span>
+        <span class="dash-kpi-trend" id="kpi-asistencia-trend" hidden></span>
     </div>
     <div class="dash-kpi">
         <span class="dash-kpi-valor" id="kpi-citaciones">…</span>
@@ -144,7 +145,7 @@
 
 {% block extra_js %}
 {% if user.role == 'profesor' or user.role == 'admin' %}
-<script src="{% static 'js/chart.umd.min.js' %}"></script>
-<script src="{% static 'js/dashboard.js' %}"></script>
+<script src="{% static_v 'js/chart.umd.min.js' %}"></script>
+<script src="{% static_v 'js/dashboard.js' %}"></script>
 {% endif %}
 {% endblock %}

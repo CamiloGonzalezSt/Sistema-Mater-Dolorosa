@@ -164,6 +164,19 @@
 
 .dash-kpi-etiqueta { font-size: 0.85rem; opacity: 0.88; }
 
+.dash-kpi-trend {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: var(--radio-full);
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.dash-kpi-trend.trend-up { color: var(--color-amarillo); }
+.dash-kpi-trend.trend-down { color: #ffb3a1; }
+
 .dash-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));

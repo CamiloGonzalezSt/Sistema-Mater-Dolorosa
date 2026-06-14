@@ -60,6 +60,18 @@ class DashboardDataView(RoleRequiredMixin, View):
             'porcentajes': [round(100 * s['presentes'] / s['total'], 1) for s in serie],
         }
 
+        # Tendencia: asistencia de hoy vs. promedio de los días previos
+        previos = [
+            round(100 * s['presentes'] / s['total'], 1)
+            for s in serie if s['fecha'] != hoy
+        ]
+        promedio_previo = round(sum(previos) / len(previos), 1) if previos else None
+        tendencia_asistencia = (
+            round(pct_presentes_hoy - promedio_previo, 1)
+            if pct_presentes_hoy is not None and promedio_previo is not None
+            else None
+        )
+
         # --- Promedio de notas por asignatura (año en curso) ---
         notas_qs = Calificacion.objects.filter(evaluacion__curso_asignatura__in=cas)
         promedios = list(
@@ -99,6 +111,8 @@ class DashboardDataView(RoleRequiredMixin, View):
                 'porcentaje_presentes': pct_presentes_hoy,
                 'total_registros': total_hoy,
                 'por_estado': por_estado,
+                'tendencia': tendencia_asistencia,
+                'promedio_previo': promedio_previo,
             },
             'asistencia_serie': asistencia_serie,
             'promedios': promedios_data,
