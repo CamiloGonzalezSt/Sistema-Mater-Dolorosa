@@ -24,7 +24,7 @@ FONT_OUT = BASE / 'static' / 'css' / 'fonts' / 'tabler-icons.subset.woff2'
 
 # Íconos usados en templates/ (mantener sincronizado con las plantillas)
 USADOS = [
-    'book', 'book-2', 'calendar-event', 'cash', 'chevron-down',
+    'bell', 'book', 'book-2', 'calendar-event', 'cash', 'chevron-down',
     'clipboard-check', 'folder', 'layout-dashboard', 'login-2', 'logout',
     'mail', 'menu-2', 'notebook', 'school', 'settings', 'star', 'users',
     'wallet',

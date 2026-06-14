@@ -48,6 +48,10 @@
             </nav>
             {% if user.is_authenticated %}
             <nav class="user-nav">
+                <a href="{% url 'comunicaciones:mensajes' %}" class="nav-bell" aria-label="Mensajes{% if mensajes_no_leidos %} ({{ mensajes_no_leidos }} sin leer){% endif %}">
+                    <i class="ti ti-bell" aria-hidden="true"></i>
+                    {% if mensajes_no_leidos %}<span class="nav-bell-badge">{{ mensajes_no_leidos }}</span>{% endif %}
+                </a>
                 <a href="{% url 'home' %}" class="btn btn-secondary"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Mi Panel</a>
                 <span class="user-info">{{ user.get_full_name|default:user.email }} · {{ user.get_role_display }}</span>
                 <form method="post" action="{% url 'logout' %}">

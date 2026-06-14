@@ -29,7 +29,9 @@
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _icons.py)",
       "Bash(rm -f _icons.py)",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _att.py)",
-      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _att2.py)"
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _att2.py)",
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _msg.py)",
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _msg2.py)"
     ]
   }
 }
