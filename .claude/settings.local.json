@@ -23,7 +23,8 @@
       "Bash(git commit -q -m ' *)",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _u.py)",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python _u2.py)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "PowerShell(cd \"C:\\\\Users\\\\cajgo\\\\Documents\\\\Mater_Dolorosa\" ; .\\\\venv\\\\Scripts\\\\python -m fontTools.subset static/css/fonts/tabler-icons.woff2 --unicodes=ea39,efc5,ea52,ea55,ea5f,ea6c,eaad,f02c,fc76,eba8,eae5,ec42,eb96,ecf7,eb20,eb2e,ebf2,eb75 --flavor=woff2 --output-file=static/css/fonts/tabler-icons.subset.woff2 2>&1 | Select-Object -Last 3 ; echo \"=== Tamaños ===\" ; \\(Get-Item static/css/fonts/tabler-icons.woff2\\).Length ; \\(Get-Item static/css/fonts/tabler-icons.subset.woff2\\).Length ; \\(Get-Item static/css/tabler-icons.subset.css\\).Length)"
     ]
   }
 }

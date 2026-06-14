@@ -1,0 +1,21 @@
+/* Tabler Icons — subset generado solo con los íconos usados (ver _subset_icons.py) */
+@font-face{font-family:"tabler-icons";font-style:normal;font-weight:400;src:url("./fonts/tabler-icons.subset.woff2") format("woff2")}
+.ti{font-family:"tabler-icons" !important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.ti-book:before{content:"\ea39"}
+.ti-book-2:before{content:"\efc5"}
+.ti-calendar-event:before{content:"\ea52"}
+.ti-cash:before{content:"\ea55"}
+.ti-chevron-down:before{content:"\ea5f"}
+.ti-clipboard-check:before{content:"\ea6c"}
+.ti-folder:before{content:"\eaad"}
+.ti-layout-dashboard:before{content:"\f02c"}
+.ti-login-2:before{content:"\fc76"}
+.ti-logout:before{content:"\eba8"}
+.ti-mail:before{content:"\eae5"}
+.ti-menu-2:before{content:"\ec42"}
+.ti-notebook:before{content:"\eb96"}
+.ti-school:before{content:"\ecf7"}
+.ti-settings:before{content:"\eb20"}
+.ti-star:before{content:"\eb2e"}
+.ti-users:before{content:"\ebf2"}
+.ti-wallet:before{content:"\eb75"}
