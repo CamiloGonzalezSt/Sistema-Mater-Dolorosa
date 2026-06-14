@@ -7,5 +7,7 @@ reportlab==4.*
 django-axes==7.*
 whitenoise==6.*
 openpyxl==3.*
+django-otp==1.*
+qrcode==8.*
 requests==2.31.*
 beautifulsoup4==4.12.*

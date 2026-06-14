@@ -5,6 +5,13 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+# 2FA en el admin: cuando ADMIN_2FA está activo, el admin exige token OTP
+# además de la contraseña. Solo afecta a /admin/.
+if settings.ADMIN_2FA:
+    from django_otp.admin import OTPAdminSite
+
+    admin.site.__class__ = OTPAdminSite
+
 from apps.contabilidad.views import MiCuentaView
 from apps.core.views import DashboardDataView, HomeView
 from apps.web_publica.views import (

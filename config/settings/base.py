@@ -34,6 +34,9 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'simple_history',
     'axes',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    'django_otp.plugins.otp_static',
 ]
 
 LOCAL_APPS = [
@@ -60,6 +63,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # Verificación OTP (2FA) — solo exige token cuando ADMIN_2FA está activo
+    'django_otp.middleware.OTPMiddleware',
     'axes.middleware.AxesMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -145,6 +150,14 @@ AXES_COOLOFF_TIME = timedelta(minutes=15)
 AXES_LOCKOUT_PARAMETERS = ['ip_address', 'username']
 AXES_RESET_ON_SUCCESS = True
 AXES_LOCKOUT_CALLABLE = None
+
+# ------------------------------------------------------------------
+# 2FA en el panel de administración de Django.
+# Apagado por defecto: actívalo (ADMIN_2FA=True) SOLO después de enrolar el
+# dispositivo del admin con `python manage.py enrolar_2fa <email>`.
+# Afecta únicamente a /admin/ (no al panel /panel/ del colegio).
+# ------------------------------------------------------------------
+ADMIN_2FA = env.bool('ADMIN_2FA', default=False)
 
 # ------------------------------------------------------------------
 # Internacionalización
