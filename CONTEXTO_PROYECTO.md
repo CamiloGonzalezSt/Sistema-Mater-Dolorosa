@@ -22,7 +22,7 @@ Tiene dos grandes partes:
 | Componente | Tecnología |
 |-----------|-----------|
 | Backend | **Django 5.2** (Python) |
-| Base de datos | **MySQL 8** (InnoDB, utf8mb4) |
+| Base de datos | **SQLite** (producción en Render), MySQL (desarrollo local opcional) |
 | ORM | Django ORM (sin DRF — solo vistas Django clásicas + JSON para el dashboard) |
 | Frontend | HTML + CSS (design tokens) + JS vanilla |
 | Fuente ícono | Tabler Icons (subset de 18 íconos, `~5 KB`) |
@@ -42,26 +42,22 @@ Tiene dos grandes partes:
 
 ## 3. Entorno de desarrollo
 
+### Local (Windows 11)
 ```
-# Stack local (Windows 11)
 - Python venv en ./venv/
-- MySQL local en puerto 3306 (o 3308 según disponibilidad)
+- SQLite local (db.sqlite3) — migrado de MySQL para facilitar deploy
 - Servidor de desarrollo: python manage.py runserver
 
 # Variables de entorno (.env en la raíz)
-SECRET_KEY=...
+SECRET_KEY=django-insecure-dev-key-only-for-testing
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
-DB_NAME=mater_dolorosa
-DB_USER=...
-DB_PASSWORD=...
-DB_HOST=127.0.0.1
-DB_PORT=3306
+USE_SQLITE=True
 ADMIN_2FA=False          # no activar sin antes enrolar el dispositivo
 
 # Settings
-config/settings/base.py         -- compartido
-config/settings/development.py  -- DEBUG=True, sin HTTPS
+config/settings/base.py         -- compartido (con soporte SQLite/MySQL condicional)
+config/settings/development.py  -- DEBUG=True, sin HTTPS, SQLite
 config/settings/production.py   -- HTTPS, HSTS, WhiteNoise comprimido
 ```
 
@@ -69,6 +65,20 @@ Para correr tests:
 ```
 DJANGO_SETTINGS_MODULE=config.settings.development python manage.py test
 # → 80 tests, todos en verde
+```
+
+### Producción (Render)
+```
+URL en vivo: https://mater-dolorosa.onrender.com/
+
+Configuración:
+- Environment: Python 3
+- Build: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+- Start: gunicorn config.wsgi:application
+- Database: SQLite en disco de Render
+- Plan: Free tier (duerme tras 15 min de inactividad, primer request ~10s)
+
+Ver DEPLOY.md para instrucciones detalladas de deploy.
 ```
 
 ---
@@ -354,12 +364,24 @@ EMAIL_USE_TLS=True
 
 ## 14. Historial de commits (referencia rápida)
 
+**Sesión actual (Deploy en Render):**
+```
+d730c7f Cambiar a CompressedStaticFilesStorage (sin validación estricta)
+847496c Agregar tabler-icons.woff para compatibilidad con collectstatic
+76c6d36 Corregir versión de whitenoise (6.1.2 no existe, usar 6.12.0)
+b871729 Corregir encoding corrupto en requirements.txt
+8d10ec4 Agregar guía de deploy en Render con instrucciones paso a paso
+da730c7 Preparar proyecto para deploy en Render con SQLite
+cfcddef Notas del apoderado con mismo diseño que 'Mis notas' del alumno
+```
+
+**Sesiones anteriores (Features implementadas):**
 ```
 b630713 Rediseño completo de 'Mis notas': hero, grid de cards y barras de progreso
 e41caa7 Export notas a Excel + vista 'Mis notas' para alumnos
 d0734db Agregar documento de contexto completo del proyecto
 9adea1d Renombrar logo a mater.png y fijar requirements.txt
-22ec98c Merge branch 'main' of https://github.com/CamiloGonzalezSt/Sistema-Mater-Dolorosa
+22ec98c Merge branch 'main'
 fc2e8a6 2FA opcional para el panel de administración (django-otp)
 a7a74c7 Exportar cobros a Excel (.xlsx)
 110588d Calendario en grilla mensual con navegación
@@ -376,9 +398,49 @@ d75b977 Sistema de design tokens + limpieza de base.css
 
 ---
 
-## 15. Repositorio
+## 15. Repositorio y Deployment
 
-- **GitHub:** https://github.com/CamiloGonzalezSt/Sistema-Mater-Dolorosa
-- **Rama principal:** `main`
-- **Git user:** camiloGonzalezs
-- **Email admin:** caj.gonzalez.st@gmail.com
+| Recurso | Enlace |
+|---------|--------|
+| **GitHub** | https://github.com/CamiloGonzalezSt/Sistema-Mater-Dolorosa |
+| **Rama principal** | `main` |
+| **Git user** | camiloGonzalezs |
+| **Email admin** | caj.gonzalez.st@gmail.com |
+| **Sitio en vivo (Render)** | https://mater-dolorosa.onrender.com/ |
+| **Documentación deploy** | [DEPLOY.md](DEPLOY.md) — pasos para nuevo deploy |
+
+---
+
+## 16. Notas importantes para la próxima sesión
+
+### Base de datos
+- **Actual:** SQLite en producción (Render), MySQL opcional en desarrollo
+- Si necesitas MySQL en producción, cambiar `USE_SQLITE=False` en .env y agregar credenciales DB_*
+
+### Datos de prueba
+- Usuarios de prueba creados con `python manage.py seed_prueba`
+- Gisselle Castro (apoderado) → Felipe Soto (alumno 2° Medio)
+- Ignacia Cid (apoderado) → Javiera Muñoz (alumno 8° Básico)
+- Cada alumno con 8 asignaturas y 4 calificaciones aleatorias
+
+### URLs clave en la app
+| Sección | URL |
+|---------|-----|
+| Sitio público | `/` |
+| Login | `/accounts/login/` |
+| Panel principal | `/panel/` |
+| Mis notas (alumno) | `/panel/calificaciones/mis-notas/` |
+| Notas pupilos (apoderado) | `/panel/pupilos/notas/` |
+| Admin Django | `/admin/` |
+
+### Limitaciones conocidas (free tier Render)
+- Duerme tras 15 min sin requests → primer acceso ~10s de espera
+- Mejor rendimiento con upgrade (~$7/mes)
+- Base de datos SQLite tiene límite de concurrencia (migrar a PostgreSQL si crece mucho)
+
+### Próximos pasos sugeridos
+- [ ] Cambiar a PostgreSQL (integrado en Render) si muchos usuarios simultáneos
+- [ ] Agregar dominio personalizado (ej: materdolorosa.cl)
+- [ ] Configurar email SMTP para notificaciones
+- [ ] Recopilar feedback de usuarios reales
+- [ ] Migrar assets pesados a CDN si es necesario
