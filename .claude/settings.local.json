@@ -41,7 +41,12 @@
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py test --verbosity=1)",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py test apps.alumnos.tests.MatriculaTests.test_portal_apoderado_notas_promedios_y_umbral --verbosity=1)",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py migrate --verbosity=0)",
-      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py collectstatic --noinput)"
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py collectstatic --noinput)",
+      "Bash(git reset *)",
+      "Bash(git commit -m 'Agregar guía de deploy en Render con instrucciones paso a paso *)",
+      "Bash(git commit -m 'Corregir encoding corrupto en requirements.txt *)",
+      "Bash(git commit -m 'Corregir versión de whitenoise \\(6.1.2 no existe, usar 6.12.0\\) *)",
+      "Bash(git push *)"
     ]
   }
 }
