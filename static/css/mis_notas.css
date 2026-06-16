@@ -1,0 +1,304 @@
+/* ── Mis Notas — vista alumno ─────────────────────────────────────── */
+
+/* Paleta semántica de notas */
+.nota-excelente  { --nota-color: #1a5e38; --nota-bg: #d6f0e3; --nota-borde: #52c98a; }
+.nota-buena      { --nota-color: #1a4a7a; --nota-bg: #daeeff; --nota-borde: #4fa3e0; }
+.nota-suficiente { --nota-color: #7a5200; --nota-bg: #fff3cc; --nota-borde: #f5c842; }
+.nota-insuficiente { --nota-color: #7a1a1a; --nota-bg: #fde8e8; --nota-borde: #e05252; }
+.nota-sin        { --nota-color: #555;    --nota-bg: #f0f0f0; --nota-borde: #ccc; }
+
+/* ── Estado vacío ─────────────────────────────────────────────────── */
+.mn-estado {
+    text-align: center;
+    padding: 4rem 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+.mn-estado-icono { font-size: 3.5rem; margin-bottom: 1rem; }
+.mn-estado h2    { color: var(--color-primario-oscuro); margin-bottom: 0.5rem; }
+.mn-estado p     { color: #667; margin-bottom: 1.5rem; }
+
+/* ── Botón volver ─────────────────────────────────────────────────── */
+.mn-btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--color-primario);
+    color: var(--color-primario);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+.mn-btn-volver:hover { background: var(--color-primario); color: #fff; }
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+.mn-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, #010D61 0%, #1a3fa8 100%);
+    border-radius: 18px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.mn-hero-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.mn-hero-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: -1px;
+}
+
+.mn-hero-nombre {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 0 0 0.2rem;
+}
+
+.mn-hero-curso {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+/* Promedio general en el hero */
+.mn-hero-promedio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.13);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 16px;
+    padding: 0.75rem 1.5rem;
+    min-width: 110px;
+}
+.mn-hero-promedio-valor {
+    font-size: 2.4rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+}
+.mn-hero-promedio-label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.2rem;
+}
+
+/* Color accent en el valor según resultado */
+.mn-hero-promedio.nota-excelente   .mn-hero-promedio-valor { color: #6ef0a8; }
+.mn-hero-promedio.nota-buena       .mn-hero-promedio-valor { color: #7dd3fc; }
+.mn-hero-promedio.nota-suficiente  .mn-hero-promedio-valor { color: #fde68a; }
+.mn-hero-promedio.nota-insuficiente .mn-hero-promedio-valor { color: #fca5a5; }
+
+/* ── Sección por período ──────────────────────────────────────────── */
+.mn-periodo { margin-bottom: 2.5rem; }
+
+.mn-periodo-titulo {
+    margin: 0 0 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.mn-periodo-titulo::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e4ef;
+}
+
+.mn-periodo-badge {
+    display: inline-block;
+    background: var(--color-primario-oscuro);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+/* ── Grid de cards ────────────────────────────────────────────────── */
+.mn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.1rem;
+}
+
+/* ── Card de asignatura ───────────────────────────────────────────── */
+.mn-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1.5px solid var(--nota-borde, #dde2ef);
+    box-shadow: 0 2px 10px rgba(1,13,97,0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.mn-card:hover {
+    box-shadow: 0 6px 24px rgba(1,13,97,0.12);
+    transform: translateY(-2px);
+}
+
+.mn-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.1rem 0.75rem;
+}
+
+.mn-card-inicial {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--nota-bg, #eef1fb);
+    color: var(--nota-color, #333);
+    font-size: 0.78rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: -0.5px;
+}
+
+.mn-card-meta { flex: 1; min-width: 0; }
+
+.mn-card-nombre {
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: var(--color-primario-oscuro);
+    margin: 0 0 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mn-card-count {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.mn-card-promedio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--nota-bg, #f0f3ff);
+    border-radius: 10px;
+    padding: 0.4rem 0.7rem;
+    min-width: 52px;
+}
+.mn-card-promedio-valor {
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: var(--nota-color, #333);
+    line-height: 1;
+}
+.mn-card-promedio-label {
+    font-size: 0.62rem;
+    color: var(--nota-color, #888);
+    text-transform: uppercase;
+    opacity: 0.75;
+}
+
+/* ── Barra de progreso ────────────────────────────────────────────── */
+.mn-barra-wrap {
+    height: 5px;
+    background: #eef0f8;
+    margin: 0 1.1rem 0.85rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.mn-barra-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--nota-borde, #ccc);
+    transition: width 0.6s ease;
+}
+
+/* ── Lista de evaluaciones ────────────────────────────────────────── */
+.mn-eval-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0.5rem;
+    border-top: 1px solid #f0f2f8;
+}
+
+.mn-eval-fila {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 1.1rem;
+    border-bottom: 1px solid #f5f6fb;
+    transition: background 0.12s;
+}
+.mn-eval-fila:last-child { border-bottom: none; }
+.mn-eval-fila:hover { background: #f8f9ff; }
+
+.mn-eval-info { flex: 1; min-width: 0; }
+
+.mn-eval-nombre {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mn-eval-tipo {
+    display: block;
+    font-size: 0.72rem;
+    color: #999;
+    margin-top: 0.1rem;
+}
+
+.mn-eval-nota {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 800;
+    background: var(--nota-bg);
+    color: var(--nota-color);
+    flex-shrink: 0;
+    padding: 0 0.5rem;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .mn-hero { padding: 1.2rem; gap: 1rem; }
+    .mn-hero-nombre { font-size: 1.1rem; }
+    .mn-grid { grid-template-columns: 1fr; }
+    .mn-hero-promedio { padding: 0.6rem 1rem; }
+    .mn-hero-promedio-valor { font-size: 2rem; }
+}

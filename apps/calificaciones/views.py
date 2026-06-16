@@ -319,7 +319,19 @@ class MisNotasView(RoleRequiredMixin, TemplateView):
             asignatura = cal.evaluacion.curso_asignatura.asignatura
             agrupado[periodo][asignatura].append(cal)
 
+        def clase_nota(n):
+            if n is None:
+                return 'nota-sin'
+            if n >= 6.0:
+                return 'nota-excelente'
+            if n >= 5.0:
+                return 'nota-buena'
+            if n >= 4.0:
+                return 'nota-suficiente'
+            return 'nota-insuficiente'
+
         # Calcular promedios y armar estructura ordenada
+        todos_promedios = []
         resumen = []
         for periodo in sorted(agrupado.keys(), key=lambda p: p.fecha_inicio):
             asignaturas = []
@@ -328,12 +340,27 @@ class MisNotasView(RoleRequiredMixin, TemplateView):
             ):
                 notas = [float(c.nota) for c in califs]
                 promedio = round(sum(notas) / len(notas), 1) if notas else None
+                if promedio is not None:
+                    todos_promedios.append(promedio)
+                califs_con_clase = [
+                    {'cal': c, 'clase': clase_nota(float(c.nota))}
+                    for c in califs
+                ]
                 asignaturas.append({
                     'asignatura': asignatura,
-                    'calificaciones': califs,
+                    'calificaciones': califs_con_clase,
                     'promedio': promedio,
+                    'clase_promedio': clase_nota(promedio),
+                    # Porcentaje para la barra de progreso (escala 1-7)
+                    'pct': round((promedio - 1) / 6 * 100) if promedio else 0,
                 })
             resumen.append({'periodo': periodo, 'asignaturas': asignaturas})
 
+        promedio_general = (
+            round(sum(todos_promedios) / len(todos_promedios), 1)
+            if todos_promedios else None
+        )
         context['resumen'] = resumen
+        context['promedio_general'] = promedio_general
+        context['clase_promedio_general'] = clase_nota(promedio_general)
         return context
