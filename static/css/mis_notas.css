@@ -294,6 +294,9 @@
     padding: 0 0.5rem;
 }
 
+/* Hero con separación cuando hay varios pupilos */
+.mn-hero-separado { margin-top: 2.5rem; }
+
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 600px) {
     .mn-hero { padding: 1.2rem; gap: 1rem; }

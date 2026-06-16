@@ -1,70 +1,103 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Notas · Mater Dolorosa{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+{% block title %}Notas de mis pupilos · Mater Dolorosa{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/panel.css' %}">
+<link rel="stylesheet" href="{% static 'css/mis_notas.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="panel-encabezado">
-    <div>
-        <h1>Notas</h1>
-        <p>Calificaciones por asignatura con promedios (solo lectura).</p>
-    </div>
-    <nav class="nav-encabezado">
-        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
-    </nav>
+
+{% if not boletines %}
+<div class="mn-estado">
+    <div class="mn-estado-icono">📋</div>
+    <h2>Sin pupilos vinculados</h2>
+    <p>Tu cuenta no tiene alumnos vinculados. Contacta a secretaría.</p>
+    <a href="{% url 'home' %}" class="mn-btn-volver">Volver al panel</a>
 </div>
 
-{% for boletin in boletines %}
-<h2 class="subtitulo-seccion">{{ boletin.pupilo.usuario.get_full_name }}</h2>
-{% if boletin.ramos %}
-<table class="tabla-libro">
-    <thead>
-        <tr>
-            <th>Asignatura</th>
-            <th>Notas</th>
-            <th>Promedio</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for ramo in boletin.ramos %}
-        <tr>
-            <td class="celda-alumno">{{ ramo.asignatura }}</td>
-            <td>
-                {% for cal in ramo.calificaciones %}
-                <span class="nota-pill {% if cal.nota < 4 %}nota-roja{% endif %}" title="{{ cal.evaluacion.nombre }} ({{ cal.evaluacion.fecha|date:'d-m-Y' }})">{{ cal.nota|floatformat:1 }}</span>
-                {% endfor %}
-            </td>
-            <td class="{% if not ramo.aprobado %}nota-roja{% endif %}"><strong>{{ ramo.promedio|floatformat:2 }}</strong></td>
-            <td>
-                {% if ramo.aprobado %}
-                <span class="estado-aprobado">Aprobado</span>
-                {% else %}
-                <span class="estado-reprobado">Reprobado</span>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    <tfoot>
-        <tr class="fila-promedio-general">
-            <td colspan="2"><strong>Promedio general</strong></td>
-            <td class="{% if not boletin.aprobado_general %}nota-roja{% endif %}"><strong>{{ boletin.promedio_general|floatformat:2 }}</strong></td>
-            <td>
-                {% if boletin.aprobado_general %}
-                <span class="estado-aprobado">Aprobado</span>
-                {% else %}
-                <span class="estado-reprobado">Reprobado</span>
-                {% endif %}
-            </td>
-        </tr>
-    </tfoot>
-</table>
 {% else %}
-<p class="nota-ayuda">Sin calificaciones registradas.</p>
-{% endif %}
-{% empty %}
-<div class="card card-panel"><p>Tu cuenta no tiene pupilos vinculados. Contacta a secretaría.</p></div>
+{% for boletin in boletines %}
+
+{# ── Hero del alumno ─────────────────────────────────────────────── #}
+<div class="mn-hero {% if not forloop.first %}mn-hero-separado{% endif %}">
+    <div class="mn-hero-info">
+        <div class="mn-hero-avatar">
+            {{ boletin.pupilo.usuario.first_name|slice:":1" }}{{ boletin.pupilo.usuario.last_name|slice:":1" }}
+        </div>
+        <div>
+            <h1 class="mn-hero-nombre">{{ boletin.pupilo.usuario.get_full_name }}</h1>
+            <p class="mn-hero-curso">
+                {% if boletin.matricula %}{{ boletin.matricula.curso }} &mdash; Año {{ boletin.matricula.anio_escolar }}{% else %}Sin matrícula activa{% endif %}
+            </p>
+        </div>
+    </div>
+    {% if boletin.promedio_general %}
+    <div class="mn-hero-promedio {{ boletin.clase_promedio_general }}">
+        <span class="mn-hero-promedio-valor">{{ boletin.promedio_general|floatformat:1 }}</span>
+        <span class="mn-hero-promedio-lbl">Promedio general</span>
+    </div>
+    {% endif %}
+    {% if forloop.first %}
+    <a href="{% url 'home' %}" class="mn-btn-volver">← Panel</a>
+    {% endif %}
+</div>
+
+{% if not boletin.resumen %}
+<div class="card card-panel" style="margin-bottom:2rem">
+    <p>Aún no hay calificaciones registradas para este alumno.</p>
+</div>
+
+{% else %}
+{% for bloque in boletin.resumen %}
+<section class="mn-periodo">
+    <h2 class="mn-periodo-titulo">
+        <span class="mn-periodo-badge">{{ bloque.periodo.nombre }}</span>
+    </h2>
+
+    <div class="mn-grid">
+        {% for item in bloque.asignaturas %}
+        <div class="mn-card {{ item.clase_promedio }}">
+            <div class="mn-card-header">
+                <div class="mn-card-inicial">{{ item.asignatura.nombre|slice:":2"|upper }}</div>
+                <div class="mn-card-meta">
+                    <h3 class="mn-card-nombre">{{ item.asignatura.nombre }}</h3>
+                    <span class="mn-card-count">{{ item.calificaciones|length }} evaluación{% if item.calificaciones|length != 1 %}es{% endif %}</span>
+                </div>
+                {% if item.promedio %}
+                <div class="mn-card-promedio">
+                    <span class="mn-card-promedio-valor">{{ item.promedio|floatformat:1 }}</span>
+                    <span class="mn-card-promedio-label">prom.</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if item.promedio %}
+            <div class="mn-barra-wrap" title="Promedio {{ item.promedio|floatformat:1 }} / 7.0">
+                <div class="mn-barra-fill {{ item.clase_promedio }}" style="width: {{ item.pct }}%"></div>
+            </div>
+            {% endif %}
+
+            <ul class="mn-eval-lista">
+                {% for entry in item.calificaciones %}
+                <li class="mn-eval-fila">
+                    <div class="mn-eval-info">
+                        <span class="mn-eval-nombre">{{ entry.cal.evaluacion.nombre }}</span>
+                        <span class="mn-eval-tipo">{{ entry.cal.evaluacion.tipo.nombre }} · {{ entry.cal.evaluacion.fecha|date:"d M" }}</span>
+                    </div>
+                    <span class="mn-eval-nota {{ entry.clase }}">{{ entry.cal.nota|floatformat:1 }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
 {% endblock %}

@@ -43,19 +43,19 @@ class MatriculaTests(TestCase):
         self.client.force_login(self.esc.apoderados[0].usuario)
         respuesta = self.client.get('/panel/pupilos/notas/')
         contenido = respuesta.content.decode()
-        self.assertIn('3,50', contenido.replace('3.50', '3,50'))
-        self.assertIn('Reprobado', contenido)
-        self.assertIn('estado-reprobado', contenido)
+        # El nuevo diseño muestra promedio con floatformat:1 → "3,5"
+        self.assertIn('3,5', contenido)
+        self.assertIn('nota-insuficiente', contenido)
         # Solo ve a su pupilo
         self.assertNotIn(
             self.esc.alumnos[1].usuario.get_full_name(), contenido)
 
-        # Exactamente 4.0 → Aprobado (caso límite del umbral)
+        # Exactamente 4.0 → suficiente (caso límite del umbral)
         Calificacion.objects.filter(matricula=self.esc.matriculas[0]).update(
             nota=Decimal('4.0'))
         contenido = self.client.get('/panel/pupilos/notas/').content.decode()
-        self.assertIn('Aprobado', contenido)
-        self.assertNotIn('Reprobado', contenido)
+        self.assertIn('nota-suficiente', contenido)
+        self.assertNotIn('nota-insuficiente', contenido)
 
     def test_portal_apoderado_bloqueado_para_otros_roles(self):
         for usuario in (self.esc.profesor, self.esc.alumnos[0].usuario):

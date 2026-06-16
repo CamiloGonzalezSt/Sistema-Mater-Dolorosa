@@ -56,47 +56,88 @@ class PupilosAnotacionesView(PortalApoderadoMixin, TemplateView):
 
 class PupilosNotasView(PortalApoderadoMixin, TemplateView):
     """Notas por asignatura con promedio por asignatura y promedio general.
-    Bajo 4.0 → Reprobado (rojo); desde 4.0 → Aprobado."""
+    Usa el mismo diseño visual que MisNotasView (alumno)."""
 
     template_name = 'alumnos/pupilos_notas.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        def clase_nota(n):
+            if n is None:
+                return 'nota-sin'
+            n = float(n)
+            if n >= 6.0:
+                return 'nota-excelente'
+            if n >= 5.0:
+                return 'nota-buena'
+            if n >= 4.0:
+                return 'nota-suficiente'
+            return 'nota-insuficiente'
+
         boletines = []
         for pupilo in context['pupilos']:
+            matricula = (
+                pupilo.matriculas
+                .select_related('curso__nivel')
+                .order_by('-anio_escolar')
+                .first()
+            )
             calificaciones = (
                 Calificacion.objects.filter(matricula__alumno=pupilo)
                 .select_related(
                     'evaluacion__curso_asignatura__asignatura',
-                    'evaluacion__periodo', 'evaluacion__tipo', 'matricula',
+                    'evaluacion__periodo',
+                    'evaluacion__tipo',
+                    'matricula',
                 )
-                .order_by('evaluacion__fecha')
+                .order_by(
+                    'evaluacion__periodo__fecha_inicio',
+                    'evaluacion__curso_asignatura__asignatura__nombre',
+                    'evaluacion__fecha',
+                )
             )
-            por_asignatura = defaultdict(list)
-            for cal in calificaciones:
-                nombre = cal.evaluacion.curso_asignatura.asignatura.nombre
-                por_asignatura[nombre].append(cal)
 
-            ramos = []
-            for nombre, cals in sorted(por_asignatura.items()):
-                promedio = sum(c.nota for c in cals) / len(cals)
-                ramos.append({
-                    'asignatura': nombre,
-                    'calificaciones': cals,
-                    'promedio': promedio,
-                    'aprobado': promedio >= UMBRAL_APROBACION,
-                })
+            # Agrupar: { periodo: { asignatura_obj: [cal, ...] } }
+            agrupado = defaultdict(lambda: defaultdict(list))
+            for cal in calificaciones:
+                periodo = cal.evaluacion.periodo
+                asignatura = cal.evaluacion.curso_asignatura.asignatura
+                agrupado[periodo][asignatura].append(cal)
+
+            todos_promedios = []
+            resumen = []
+            for periodo in sorted(agrupado.keys(), key=lambda p: p.fecha_inicio):
+                asignaturas = []
+                for asignatura, cals in sorted(
+                    agrupado[periodo].items(), key=lambda x: x[0].nombre
+                ):
+                    notas = [float(c.nota) for c in cals]
+                    promedio = round(sum(notas) / len(notas), 1) if notas else None
+                    if promedio is not None:
+                        todos_promedios.append(promedio)
+                    asignaturas.append({
+                        'asignatura': asignatura,
+                        'calificaciones': [
+                            {'cal': c, 'clase': clase_nota(c.nota)} for c in cals
+                        ],
+                        'promedio': promedio,
+                        'clase_promedio': clase_nota(promedio),
+                        'pct': round((promedio - 1) / 6 * 100) if promedio else 0,
+                    })
+                resumen.append({'periodo': periodo, 'asignaturas': asignaturas})
+
             promedio_general = (
-                sum(r['promedio'] for r in ramos) / len(ramos) if ramos else None
+                round(sum(todos_promedios) / len(todos_promedios), 1)
+                if todos_promedios else None
             )
             boletines.append({
                 'pupilo': pupilo,
-                'ramos': ramos,
+                'matricula': matricula,
+                'resumen': resumen,
                 'promedio_general': promedio_general,
-                'aprobado_general': (
-                    promedio_general is not None
-                    and promedio_general >= UMBRAL_APROBACION
-                ),
+                'clase_promedio_general': clase_nota(promedio_general),
             })
+
         context['boletines'] = boletines
         return context
