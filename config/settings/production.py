@@ -21,6 +21,10 @@ CSRF_TRUSTED_ORIGINS = [
     'https://mater-dolorosa.onrender.com',
 ]
 
+# Deshabilitar axes en producción (mientras se prueban usuarios)
+# TODO: reactivar cuando los usuarios estén estables
+DISABLE_AXES = True
+
 # ------------------------------------------------------------------
 # Archivos estáticos: WhiteNoise (sin validación estricta de referencias)
 # ------------------------------------------------------------------
