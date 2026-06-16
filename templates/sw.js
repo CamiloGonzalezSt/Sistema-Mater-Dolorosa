@@ -6,7 +6,7 @@ const SHELL = [
   '{% static "css/publica.css" %}',
   '{% static "css/tabler-icons.subset.css" %}',
   '{% static "css/fonts/tabler-icons.subset.woff2" %}',
-  '{% static "img/logo_t.png" %}',
+  '{% static "img/mater.png" %}',
 ];
 
 self.addEventListener('install', (e) => {

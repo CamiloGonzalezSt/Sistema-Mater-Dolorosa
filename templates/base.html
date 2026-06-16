@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Mater Dolorosa{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Colegio Mater Dolorosa, comunidad educativa católica en Huechuraba que acompaña a sus estudiantes de 1° Básico a 4° Medio con excelencia académica y formación en valores.{% endblock %}">
-    <link rel="icon" href="{% static 'img/logo_t.png' %}" type="image/png">
+    <link rel="icon" href="{% static 'img/mater.png' %}" type="image/png">
     <link rel="apple-touch-icon" href="{% static 'img/icon-192.png' %}">
     <link rel="manifest" href="/manifest.webmanifest">
     <meta name="theme-color" content="#010D61">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{% block og_title %}Colegio Mater Dolorosa{% endblock %}">
     <meta property="og:description" content="Comunidad educativa católica en Huechuraba.">
-    <meta property="og:image" content="{% static 'img/logo_t.png' %}">
+    <meta property="og:image" content="{% static 'img/mater.png' %}">
     <link rel="stylesheet" href="{% static_v 'css/tabler-icons.subset.css' %}">
     <link rel="stylesheet" href="{% static_v 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
@@ -21,7 +21,7 @@
     <a href="#contenido" class="skip-link">Saltar al contenido</a>
     <header class="topbar">
         <a class="brand" href="{% url 'web_publica:home' %}">
-            <img src="{% static 'img/logo_t.png' %}" alt="Logo Colegio Mater Dolorosa" class="brand-logo">
+            <img src="{% static 'img/mater.png' %}" alt="Logo Colegio Mater Dolorosa" class="brand-logo">
             <span>Colegio Mater Dolorosa</span>
         </a>
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
