@@ -40,7 +40,8 @@
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python -c ' *)",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py test --verbosity=1)",
       "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py test apps.alumnos.tests.MatriculaTests.test_portal_apoderado_notas_promedios_y_umbral --verbosity=1)",
-      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py migrate --verbosity=0)"
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py migrate --verbosity=0)",
+      "Bash(DJANGO_SETTINGS_MODULE=config.settings.development ./venv/Scripts/python manage.py collectstatic --noinput)"
     ]
   }
 }

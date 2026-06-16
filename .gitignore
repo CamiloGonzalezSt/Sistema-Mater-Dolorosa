@@ -1,34 +1,69 @@
-# Entorno
-.env
-venv/
-
 # Python
-__pycache__/
 *.py[cod]
+*$py.class
+*.so
+__pycache__/
 *.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+ENV/
 
 # Django
+*.sqlite3
+db.sqlite3
 media/
 staticfiles/
-db.sqlite3
-
-# Tests / cobertura
-.coverage
-htmlcov/
-.pytest_cache/
-
-# Node
-node_modules/
-
-# Logs
 *.log
-logs/
+/logs/
 
-# Scripts scratch temporales en la raíz
-/_*.py
-
-# IDE / SO
+# IDE
 .vscode/
 .idea/
-Thumbs.db
+*.swp
+*.swo
+*~
 .DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Byte-compiled / optimized / DLL files
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.tox/
+.hypothesis/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Render
+render-build.log
