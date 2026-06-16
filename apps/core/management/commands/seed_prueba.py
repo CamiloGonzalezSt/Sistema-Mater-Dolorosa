@@ -12,7 +12,7 @@ USUARIOS = [
         'first_name': 'Gisselle',
         'last_name': 'Castro',
         'role': 'apoderado',
-        'rut': '12345678-9',
+        'rut': '12345678-5',
         'username': 'gcastro',
     },
     {
@@ -21,7 +21,7 @@ USUARIOS = [
         'first_name': 'Felipe',
         'last_name': 'Soto',
         'role': 'alumno',
-        'rut': '23456789-0',
+        'rut': '23456789-6',
         'username': 'fsoto',
     },
     {
@@ -30,7 +30,7 @@ USUARIOS = [
         'first_name': 'Ignacia',
         'last_name': 'Cid',
         'role': 'apoderado',
-        'rut': '34567890-1',
+        'rut': '34567890-5',
         'username': 'icid',
     },
     {
@@ -39,7 +39,7 @@ USUARIOS = [
         'first_name': 'Javiera',
         'last_name': 'Muñoz',
         'role': 'alumno',
-        'rut': '45678901-2',
+        'rut': '45678901-3',
         'username': 'jmunoz',
     },
 ]
