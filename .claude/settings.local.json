@@ -47,7 +47,8 @@
       "Bash(git commit -m 'Corregir encoding corrupto en requirements.txt *)",
       "Bash(git commit -m 'Corregir versión de whitenoise \\(6.1.2 no existe, usar 6.12.0\\) *)",
       "Bash(git push *)",
-      "Bash(git commit -m 'Agregar tabler-icons.woff para compatibilidad con collectstatic *)"
+      "Bash(git commit -m 'Agregar tabler-icons.woff para compatibilidad con collectstatic *)",
+      "Bash(git commit -m 'Cambiar a CompressedStaticFilesStorage \\(sin validación estricta\\) *)"
     ]
   }
 }
