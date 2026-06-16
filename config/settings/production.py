@@ -16,6 +16,11 @@ SECURE_HSTS_PRELOAD = True
 # Confía en el header del proxy/balanceador para detectar HTTPS
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# CSRF: confía en requests desde el dominio de Render (para mobile)
+CSRF_TRUSTED_ORIGINS = [
+    'https://mater-dolorosa.onrender.com',
+]
+
 # ------------------------------------------------------------------
 # Archivos estáticos: WhiteNoise (sin validación estricta de referencias)
 # ------------------------------------------------------------------
