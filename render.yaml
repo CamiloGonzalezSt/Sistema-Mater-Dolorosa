@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: mater-dolorosa
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+    startCommand: gunicorn config.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: mater-dolorosa.onrender.com
+      - key: USE_SQLITE
+        value: true
+      - key: DEBUG
+        value: false
