@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mis notas · Mater Dolorosa{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+
+{% block content %}
+<div class="panel-encabezado">
+    <div>
+        <h1>Mis notas</h1>
+        {% if matricula %}
+        <p>{{ matricula.curso }} &mdash; Año {{ matricula.anio_escolar }}</p>
+        {% endif %}
+    </div>
+    <nav class="nav-encabezado">
+        <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
+    </nav>
+</div>
+
+{% if sin_perfil %}
+<div class="card card-panel">
+    <p>Tu cuenta no tiene un perfil de alumno asociado. Contacta a la secretaría.</p>
+</div>
+
+{% elif not matricula %}
+<div class="card card-panel">
+    <p>No tienes una matrícula activa para el año en curso.</p>
+</div>
+
+{% elif not resumen %}
+<div class="card card-panel">
+    <p>Aún no hay notas registradas para este año.</p>
+</div>
+
+{% else %}
+{% for bloque in resumen %}
+<section class="notas-periodo">
+    <h2 class="notas-periodo-titulo">{{ bloque.periodo.nombre }}</h2>
+
+    {% for item in bloque.asignaturas %}
+    <div class="card card-panel notas-asignatura">
+        <div class="notas-asignatura-header">
+            <strong>{{ item.asignatura.nombre }}</strong>
+            <span class="notas-promedio {% if item.promedio >= 4.0 %}promedio-ok{% else %}promedio-bajo{% endif %}">
+                Promedio: {{ item.promedio|floatformat:1 }}
+            </span>
+        </div>
+        <div class="notas-chips">
+            {% for cal in item.calificaciones %}
+            <div class="nota-chip {% if cal.nota >= 4.0 %}nota-ok{% else %}nota-baja{% endif %}" title="{{ cal.evaluacion.nombre }} — {{ cal.evaluacion.tipo.nombre }} ({{ cal.evaluacion.fecha|date:'d-m-Y' }})">
+                <span class="nota-valor">{{ cal.nota|floatformat:1 }}</span>
+                <span class="nota-label">{{ cal.evaluacion.nombre }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</section>
+{% endfor %}
+{% endif %}
+{% endblock %}

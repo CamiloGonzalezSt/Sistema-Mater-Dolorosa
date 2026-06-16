@@ -11,6 +11,9 @@
         <p>Filtra por curso, profesor y período para ver las evaluaciones.</p>
     </div>
     <nav class="nav-encabezado">
+        {% if filtros_aplicados %}
+        <a href="{% url 'calificaciones:exportar_excel' %}?curso={{ request.GET.curso }}&periodo={{ request.GET.periodo }}" class="btn-volver">⬇ Exportar a Excel</a>
+        {% endif %}
         <a href="{% url 'home' %}" class="btn-volver">Volver al panel</a>
     </nav>
 </div>

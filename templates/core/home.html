@@ -125,6 +125,11 @@
 </div>
 {% elif user.role == 'alumno' %}
 <div class="panel-modulos">
+    <a class="modulo-card" href="{% url 'calificaciones:mis_notas' %}">
+        <span class="modulo-icono"><i class="ti ti-notebook" aria-hidden="true"></i></span>
+        <h3>Mis notas</h3>
+        <p>Tus calificaciones por asignatura y período, con promedios.</p>
+    </a>
     <a class="modulo-card" href="{% url 'academico:materiales' %}">
         <span class="modulo-icono"><i class="ti ti-folder" aria-hidden="true"></i></span>
         <h3>Materiales de estudio</h3>

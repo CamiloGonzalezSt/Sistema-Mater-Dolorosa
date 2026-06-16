@@ -6,6 +6,19 @@ from apps.academico.models import Curso
 from .models import Calificacion, PeriodoEvaluacion
 
 
+class FiltroNotasExportForm(forms.Form):
+    curso = forms.ModelChoiceField(
+        label='Curso',
+        queryset=Curso.objects.select_related('nivel').order_by('-anio_escolar', 'nivel_id', 'letra'),
+        empty_label='— Curso —',
+    )
+    periodo = forms.ModelChoiceField(
+        label='Período',
+        queryset=PeriodoEvaluacion.objects.all().order_by('-anio_escolar', 'fecha_inicio'),
+        empty_label='— Período —',
+    )
+
+
 class FiltroEvaluacionesForm(forms.Form):
     """Los tres filtros son obligatorios: la tabla solo se muestra al completarlos."""
 
