@@ -48,7 +48,13 @@
       "Bash(git commit -m 'Corregir versión de whitenoise \\(6.1.2 no existe, usar 6.12.0\\) *)",
       "Bash(git push *)",
       "Bash(git commit -m 'Agregar tabler-icons.woff para compatibilidad con collectstatic *)",
-      "Bash(git commit -m 'Cambiar a CompressedStaticFilesStorage \\(sin validación estricta\\) *)"
+      "Bash(git commit -m 'Cambiar a CompressedStaticFilesStorage \\(sin validación estricta\\) *)",
+      "Bash(git commit -m 'Actualizar CONTEXTO_PROYECTO.md con estado actual post-Render deploy *)",
+      "Bash(git commit -m 'Agregar CSRF_TRUSTED_ORIGINS para fix de mobile login *)",
+      "Bash(git commit -m 'Ejecutar seed_prueba automáticamente en deploy *)",
+      "Bash(git commit -m 'Crear comando init_app: limpia axes y recrea usuarios *)",
+      "Bash(grep -E \"\\\\.py$\")",
+      "Bash(git commit -m 'Corregir nombre de comando en init_app: seed_demo en lugar de seed_prueba *)"
     ]
   }
 }
