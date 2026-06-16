@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
         # Recrear usuarios de prueba
         try:
-            call_command('seed_prueba', verbosity=0)
+            call_command('seed_demo', verbosity=0)
             self.stdout.write(self.style.SUCCESS('✓ Usuarios de prueba creados'))
         except Exception as e:
-            self.stdout.write(self.style.WARNING(f'⚠ seed_prueba: {e}'))
+            self.stdout.write(self.style.WARNING(f'⚠ seed_demo: {e}'))
