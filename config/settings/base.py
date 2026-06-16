@@ -149,15 +149,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-# Permite desactivar axes si DISABLE_AXES=True en .env
-if not env.bool('DISABLE_AXES', default=False):
-    AUTHENTICATION_BACKENDS = [
-        'axes.backends.AxesStandaloneBackend',
-        'django.contrib.auth.backends.ModelBackend',
-    ]
-else:
-    AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
-
 # ------------------------------------------------------------------
 # django-axes: protección contra fuerza bruta en login
 # ------------------------------------------------------------------

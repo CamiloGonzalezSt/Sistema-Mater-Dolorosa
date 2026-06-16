@@ -22,8 +22,9 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # Deshabilitar axes en producción (mientras se prueban usuarios)
-# TODO: reactivar cuando los usuarios estén estables
-DISABLE_AXES = True
+AXES_ENABLED = False
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+MIDDLEWARE = [m for m in MIDDLEWARE if 'axes' not in m.lower()]  # noqa: F405
 
 # ------------------------------------------------------------------
 # Archivos estáticos: WhiteNoise (sin validación estricta de referencias)
