@@ -17,13 +17,12 @@ SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # ------------------------------------------------------------------
-# Archivos estáticos: WhiteNoise con compresión + hash en el nombre
-# (cache-busting real; reemplaza al tag de desarrollo static_v).
+# Archivos estáticos: WhiteNoise (sin validación estricta de referencias)
 # ------------------------------------------------------------------
 STORAGES = {
     'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
     'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
     },
 }
 
